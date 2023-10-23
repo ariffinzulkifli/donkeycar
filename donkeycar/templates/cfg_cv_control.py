@@ -243,11 +243,11 @@ THROTTLE_REVERSE_PWM = -4095     #pwm value for max reverse throttle
 #   and glide to a stop.
 # - both pwms are full duty cycle (100% HIGH) to brake
 #
-HBRIDGE_PIN_FWD = 18       # provides forward duty cycle to motor
-HBRIDGE_PIN_BWD = 16       # provides reverse duty cycle to motor
-STEERING_CHANNEL = 0       # PCA 9685 channel for steering control
-STEERING_LEFT_PWM = 460    # pwm value for full left steering (use `donkey calibrate` to measure value for your car)
-STEERING_RIGHT_PWM = 290   # pwm value for full right steering (use `donkey calibrate` to measure value for your car)
+# HBRIDGE_PIN_FWD = 18       # provides forward duty cycle to motor
+# HBRIDGE_PIN_BWD = 16       # provides reverse duty cycle to motor
+# STEERING_CHANNEL = 0       # PCA 9685 channel for steering control
+# STEERING_LEFT_PWM = 460    # pwm value for full left steering (use `donkey calibrate` to measure value for your car)
+# STEERING_RIGHT_PWM = 290   # pwm value for full right steering (use `donkey calibrate` to measure value for your car)
 
 #
 # DC_STEER_THROTTLE drivetrain with one motor as steering, one as drive
@@ -269,12 +269,12 @@ STEERING_RIGHT_PWM = 290   # pwm value for full right steering (use `donkey cali
 # - RPI_GPIO, PIGPIO and PCA9685 can be mixed arbitrarily,
 #   although it is discouraged to mix RPI_GPIO and PIGPIO.
 #
-DC_STEER_THROTTLE = {
-    "LEFT_DUTY_PIN": "RPI_GPIO.BOARD.18",   # pwm pin produces duty cycle for steering left
-    "RIGHT_DUTY_PIN": "RPI_GPIO.BOARD.16",  # pwm pin produces duty cycle for steering right
-    "FWD_DUTY_PIN": "RPI_GPIO.BOARD.15",    # pwm pin produces duty cycle for forward drive
-    "BWD_DUTY_PIN": "RPI_GPIO.BOARD.13",    # pwm pin produces duty cycle for reverse drive
-}
+# DC_STEER_THROTTLE = {
+#     "LEFT_DUTY_PIN": "RPI_GPIO.BOARD.18",   # pwm pin produces duty cycle for steering left
+#     "RIGHT_DUTY_PIN": "RPI_GPIO.BOARD.16",  # pwm pin produces duty cycle for steering right
+#     "FWD_DUTY_PIN": "RPI_GPIO.BOARD.15",    # pwm pin produces duty cycle for forward drive
+#     "BWD_DUTY_PIN": "RPI_GPIO.BOARD.13",    # pwm pin produces duty cycle for reverse drive
+# }
 
 #
 # DC_TWO_WHEEL drivetrain pin configuration
@@ -305,12 +305,12 @@ DC_STEER_THROTTLE = {
 # - RPI_GPIO, PIGPIO and PCA9685 can be mixed arbitrarily,
 #   although it is discouraged to mix RPI_GPIO and PIGPIO.
 #
-DC_TWO_WHEEL = {
-    "LEFT_FWD_DUTY_PIN": "RPI_GPIO.BOARD.18",  # pwm pin produces duty cycle for left wheel forward
-    "LEFT_BWD_DUTY_PIN": "RPI_GPIO.BOARD.16",  # pwm pin produces duty cycle for left wheel reverse
-    "RIGHT_FWD_DUTY_PIN": "RPI_GPIO.BOARD.15", # pwm pin produces duty cycle for right wheel forward
-    "RIGHT_BWD_DUTY_PIN": "RPI_GPIO.BOARD.13", # pwm pin produces duty cycle for right wheel reverse
-}
+# DC_TWO_WHEEL = {
+#     "LEFT_FWD_DUTY_PIN": "RPI_GPIO.BOARD.18",  # pwm pin produces duty cycle for left wheel forward
+#     "LEFT_BWD_DUTY_PIN": "RPI_GPIO.BOARD.16",  # pwm pin produces duty cycle for left wheel reverse
+#     "RIGHT_FWD_DUTY_PIN": "RPI_GPIO.BOARD.15", # pwm pin produces duty cycle for right wheel forward
+#     "RIGHT_BWD_DUTY_PIN": "RPI_GPIO.BOARD.13", # pwm pin produces duty cycle for right wheel reverse
+# }
 
 #
 # DC_TWO_WHEEL_L298N drivetrain pin configuration
@@ -345,15 +345,15 @@ DC_TWO_WHEEL = {
 # - RPI_GPIO, PIGPIO and PCA9685 can be mixed arbitrarily,
 #   although it is discouraged to mix RPI_GPIO and PIGPIO.
 #
-DC_TWO_WHEEL_L298N = {
-    "LEFT_FWD_PIN": "RPI_GPIO.BOARD.16",        # TTL output pin enables left wheel forward
-    "LEFT_BWD_PIN": "RPI_GPIO.BOARD.18",        # TTL output pin enables left wheel reverse
-    "LEFT_EN_DUTY_PIN": "RPI_GPIO.BOARD.22",    # PWM pin generates duty cycle for left motor speed
+# DC_TWO_WHEEL_L298N = {
+#     "LEFT_FWD_PIN": "RPI_GPIO.BOARD.16",        # TTL output pin enables left wheel forward
+#     "LEFT_BWD_PIN": "RPI_GPIO.BOARD.18",        # TTL output pin enables left wheel reverse
+#     "LEFT_EN_DUTY_PIN": "RPI_GPIO.BOARD.22",    # PWM pin generates duty cycle for left motor speed
 
-    "RIGHT_FWD_PIN": "RPI_GPIO.BOARD.15",       # TTL output pin enables right wheel forward
-    "RIGHT_BWD_PIN": "RPI_GPIO.BOARD.13",       # TTL output pin enables right wheel reverse
-    "RIGHT_EN_DUTY_PIN": "RPI_GPIO.BOARD.11",   # PWM pin generates duty cycle for right wheel speed
-}
+#     "RIGHT_FWD_PIN": "RPI_GPIO.BOARD.15",       # TTL output pin enables right wheel forward
+#     "RIGHT_BWD_PIN": "RPI_GPIO.BOARD.13",       # TTL output pin enables right wheel reverse
+#     "RIGHT_EN_DUTY_PIN": "RPI_GPIO.BOARD.11",   # PWM pin generates duty cycle for right wheel speed
+# }
 
 
 
@@ -365,7 +365,7 @@ WEB_CONTROL_PORT = int(os.getenv("WEB_CONTROL_PORT", 8887))  # which port to lis
 WEB_INIT_MODE = "user"              # which control mode to start in. one of user|local_angle|local. Setting local will start in ai mode.
 
 #JOYSTICK
-USE_JOYSTICK_AS_DEFAULT = False      #when starting the manage.py, when True, will not require a --js option to use the joystick
+USE_JOYSTICK_AS_DEFAULT = True     #when starting the manage.py, when True, will not require a --js option to use the joystick
 JOYSTICK_MAX_THROTTLE = 0.5         #this scalar is multiplied with the -1 to 1 throttle value to limit the maximum throttle. This can help if you drop the controller or just don't need the full speed available.
 JOYSTICK_STEERING_SCALE = 1.0       #some people want a steering that is less sensitve. This scalar is multiplied with the steering -1 to 1. It can be negative to reverse dir.
 AUTO_RECORD_ON_THROTTLE = False     #if true, we will record whenever throttle is not zero. if false, you must manually toggle recording with some other trigger. Usually circle button on joystick.
