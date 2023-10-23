@@ -95,7 +95,7 @@ MAX_STEERING_ANGLE = 3.141592653589793 / 4  # for car-like robot; maximum steeri
 # (deprecated) "I2C_SERVO" uses PCA9685 servo controller to control a steering servo and an ESC, as in a standard RC car
 #
 DRIVE_TRAIN_TYPE = "I2C_SERVO"
-
+#
 #
 # PWM_STEERING_THROTTLE drivetrain configuration
 #
@@ -120,14 +120,16 @@ PWM_STEERING_THROTTLE = {
 #
 # I2C_SERVO (deprecated in favor of PWM_STEERING_THROTTLE)
 #
-STEERING_CHANNEL = 1            #(deprecated) channel on the 9685 pwm board 0-15
-STEERING_LEFT_PWM = 460         #pwm value for full left steering
-STEERING_RIGHT_PWM = 290        #pwm value for full right steering
-THROTTLE_CHANNEL = 0            #(deprecated) channel on the 9685 pwm board 0-15
-THROTTLE_FORWARD_PWM = 500      #pwm value for max forward throttle
-THROTTLE_STOPPED_PWM = 370      #pwm value for no movement
-THROTTLE_REVERSE_PWM = 220      #pwm value for max reverse throttle
-
+#STEERING
+STEERING_CHANNEL = 0            #channel on the 9685 pwm board 0-15
+STEERING_LEFT_PWM = 230         #pwm value for full left steering
+STEERING_RIGHT_PWM = 440        #pwm value for full right steering
+#
+#THROTTLE
+THROTTLE_CHANNEL = 0            #channel on the 9685 pwm board 0-15
+THROTTLE_FORWARD_PWM = 4095     #pwm value for max forward throttle
+THROTTLE_STOPPED_PWM = 0        #pwm value for no movement
+THROTTLE_REVERSE_PWM = -4095     #pwm value for max reverse throttle
 #
 # PIGPIO_PWM (deprecated in favor of PWM_STEERING_THROTTLE)
 #

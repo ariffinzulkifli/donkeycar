@@ -160,8 +160,8 @@ def drive(cfg, model_path=None, use_joystick=False, model_type=None,
     # maintain run conditions for user mode and autopilot mode parts.
     #
     V.add(UserPilotCondition(show_pilot_image=getattr(cfg, 'SHOW_PILOT_IMAGE', False)),
-          inputs=['user/mode', "cam/image_array", "cam/image_array_trans"],
-          outputs=['run_user', "run_pilot", "ui/image_array"])
+        inputs=['user/mode', "cam/image_array", "cam/image_array_trans"],
+        outputs=['run_user', "run_pilot", "ui/image_array"])
 
     class LedConditionLogic:
         def __init__(self, cfg):
@@ -207,7 +207,7 @@ def drive(cfg, model_path=None, use_joystick=False, model_type=None,
         led.set_rgb(cfg.LED_R, cfg.LED_G, cfg.LED_B)
 
         V.add(LedConditionLogic(cfg), inputs=['user/mode', 'recording', "records/alert", 'behavior/state', 'modelfile/modified', "pilot/loc"],
-              outputs=['led/blink_rate'])
+            outputs=['led/blink_rate'])
 
         V.add(led, inputs=['led/blink_rate'])
 
@@ -344,16 +344,16 @@ def drive(cfg, model_path=None, use_joystick=False, model_type=None,
 
         # this part will signal visual LED, if connected
         V.add(FileWatcher(model_path, verbose=True),
-              outputs=['modelfile/modified'])
+            outputs=['modelfile/modified'])
 
         # these parts will reload the model file, but only when ai is running
         # so we don't interrupt user driving
         V.add(FileWatcher(model_path), outputs=['modelfile/dirty'],
-              run_condition="run_pilot")
+            run_condition="run_pilot")
         V.add(DelayedTrigger(100), inputs=['modelfile/dirty'],
-              outputs=['modelfile/reload'], run_condition="run_pilot")
+            outputs=['modelfile/reload'], run_condition="run_pilot")
         V.add(TriggeredCallback(model_path, model_reload_cb),
-              inputs=["modelfile/reload"], run_condition="run_pilot")
+            inputs=["modelfile/reload"], run_condition="run_pilot")
 
         #
         # collect inputs to model for inference
@@ -382,8 +382,8 @@ def drive(cfg, model_path=None, use_joystick=False, model_type=None,
                     return components
 
             V.add(Vectorizer, inputs=['imu/acl_x', 'imu/acl_y', 'imu/acl_z',
-                                      'imu/gyr_x', 'imu/gyr_y', 'imu/gyr_z'],
-                  outputs=['imu_array'])
+                                    'imu/gyr_x', 'imu/gyr_y', 'imu/gyr_z'],
+                outputs=['imu_array'])
 
             inputs = ['cam/image_array', 'imu_array']
         else:
@@ -408,8 +408,8 @@ def drive(cfg, model_path=None, use_joystick=False, model_type=None,
             #
             logger.info(f"Adding inference transformations")
             V.add(ImageTransformations(cfg, 'TRANSFORMATIONS',
-                                       'POST_TRANSFORMATIONS'),
-                  inputs=['cam/image_array'], outputs=['cam/image_array_trans'])
+                                    'POST_TRANSFORMATIONS'),
+                inputs=['cam/image_array'], outputs=['cam/image_array_trans'])
             inputs = ['cam/image_array_trans'] + inputs[1:]
 
         V.add(kl, inputs=inputs, outputs=outputs, run_condition='run_pilot')
@@ -421,14 +421,14 @@ def drive(cfg, model_path=None, use_joystick=False, model_type=None,
         from donkeycar.parts.object_detector.stop_sign_detector \
             import StopSignDetector
         V.add(StopSignDetector(cfg.STOP_SIGN_MIN_SCORE,
-                               cfg.STOP_SIGN_SHOW_BOUNDING_BOX,
-                               cfg.STOP_SIGN_MAX_REVERSE_COUNT,
-                               cfg.STOP_SIGN_REVERSE_THROTTLE),
-              inputs=['cam/image_array', 'pilot/throttle'],
-              outputs=['pilot/throttle', 'cam/image_array'])
+                            cfg.STOP_SIGN_SHOW_BOUNDING_BOX,
+                            cfg.STOP_SIGN_MAX_REVERSE_COUNT,
+                            cfg.STOP_SIGN_REVERSE_THROTTLE),
+            inputs=['cam/image_array', 'pilot/throttle'],
+            outputs=['pilot/throttle', 'cam/image_array'])
         V.add(ThrottleFilter(), 
-              inputs=['pilot/throttle'],
-              outputs=['pilot/throttle'])
+            inputs=['pilot/throttle'],
+            outputs=['pilot/throttle'])
 
     #
     # to give the car a boost when starting ai mode in a race.
@@ -440,7 +440,7 @@ def drive(cfg, model_path=None, use_joystick=False, model_type=None,
     #
     aiLauncher = AiLaunch(cfg.AI_LAUNCH_DURATION, cfg.AI_LAUNCH_THROTTLE, cfg.AI_LAUNCH_KEEP_ENABLED)
     V.add(aiLauncher,
-          inputs=['user/mode', 'pilot/throttle'],
+        inputs=['user/mode', 'pilot/throttle'],
           outputs=['pilot/throttle'])
 
     #
@@ -648,7 +648,7 @@ class DriveMode:
         :param pilot_steering: steering value in autopilot mode
         :param pilot_throttle: throttle value in autopilot mode
         :return: tuple of (steering, throttle) where throttle is
-                 scaled by ai_throttle_mult in autopilot mode
+                scaled by ai_throttle_mult in autopilot mode
         """
         if mode == 'user':
             return user_steering, user_throttle
@@ -662,7 +662,7 @@ class UserPilotCondition:
     def __init__(self, show_pilot_image:bool = False) -> None:
         """
         :param show_pilot_image:bool True to show pilot image in pilot mode
-                                     False to show user image in pilot mode
+                                    False to show user image in pilot mode
         """
         self.show_pilot_image = show_pilot_image
 
@@ -685,7 +685,7 @@ def add_user_controller(V, cfg, use_joystick, input_image='ui/image_array'):
     Add the web controller and any other
     configured user input controller.
     :param V: the vehicle pipeline.
-              On output this will be modified.
+            On output this will be modified.
     :param cfg: the configuration (from myconfig.py)
     :return: the controller
     """
@@ -696,9 +696,9 @@ def add_user_controller(V, cfg, use_joystick, input_image='ui/image_array'):
     #
     ctr = LocalWebController(port=cfg.WEB_CONTROL_PORT, mode=cfg.WEB_INIT_MODE)
     V.add(ctr,
-          inputs=[input_image, 'tub/num_records', 'user/mode', 'recording'],
-          outputs=['user/steering', 'user/throttle', 'user/mode', 'recording', 'web/buttons'],
-          threaded=True)
+        inputs=[input_image, 'tub/num_records', 'user/mode', 'recording'],
+        outputs=['user/steering', 'user/throttle', 'user/mode', 'recording', 'web/buttons'],
+        threaded=True)
 
     #
     # also add a physical controller if one is configured
@@ -714,7 +714,7 @@ def add_user_controller(V, cfg, use_joystick, input_image='ui/image_array'):
                 ctr,
                 inputs=['user/mode', 'recording'],
                 outputs=['user/steering', 'user/throttle',
-                         'user/mode', 'recording'],
+                        'user/mode', 'recording'],
                 threaded=False)
         else:
             #
@@ -735,7 +735,7 @@ def add_user_controller(V, cfg, use_joystick, input_image='ui/image_array'):
             elif cfg.CONTROLLER_TYPE == "mock":
                 from donkeycar.parts.controller import MockController
                 ctr = MockController(steering=cfg.MOCK_JOYSTICK_STEERING,
-                                     throttle=cfg.MOCK_JOYSTICK_THROTTLE)
+                                    throttle=cfg.MOCK_JOYSTICK_THROTTLE)
             else:
                 #
                 # game controller
@@ -751,7 +751,7 @@ def add_user_controller(V, cfg, use_joystick, input_image='ui/image_array'):
                 ctr,
                 inputs=[input_image, 'user/mode', 'recording'],
                 outputs=['user/steering', 'user/throttle',
-                         'user/mode', 'recording'],
+                        'user/mode', 'recording'],
                 threaded=True)
     return ctr
 
@@ -763,10 +763,10 @@ def add_simulator(V, cfg):
         from donkeycar.parts.dgym import DonkeyGymEnv
         # rbx
         gym = DonkeyGymEnv(cfg.DONKEY_SIM_PATH, host=cfg.SIM_HOST, env_name=cfg.DONKEY_GYM_ENV_NAME, conf=cfg.GYM_CONF,
-                           record_location=cfg.SIM_RECORD_LOCATION, record_gyroaccel=cfg.SIM_RECORD_GYROACCEL,
-                           record_velocity=cfg.SIM_RECORD_VELOCITY, record_lidar=cfg.SIM_RECORD_LIDAR,
+                        record_location=cfg.SIM_RECORD_LOCATION, record_gyroaccel=cfg.SIM_RECORD_GYROACCEL,
+                        record_velocity=cfg.SIM_RECORD_VELOCITY, record_lidar=cfg.SIM_RECORD_LIDAR,
                         #    record_distance=cfg.SIM_RECORD_DISTANCE, record_orientation=cfg.SIM_RECORD_ORIENTATION,
-                           delay=cfg.SIM_ARTIFICIAL_LATENCY)
+                        delay=cfg.SIM_ARTIFICIAL_LATENCY)
         threaded = True
         inputs = ['steering', 'throttle']
         outputs = ['cam/image_array']
@@ -796,7 +796,7 @@ def get_camera(cfg):
         if cfg.CAMERA_TYPE == "PICAM":
             from donkeycar.parts.camera import PiCamera
             cam = PiCamera(image_w=cfg.IMAGE_W, image_h=cfg.IMAGE_H, image_d=cfg.IMAGE_DEPTH,
-                           vflip=cfg.CAMERA_VFLIP, hflip=cfg.CAMERA_HFLIP)
+                        vflip=cfg.CAMERA_VFLIP, hflip=cfg.CAMERA_HFLIP)
         elif cfg.CAMERA_TYPE == "WEBCAM":
             from donkeycar.parts.camera import Webcam
             cam = Webcam(image_w=cfg.IMAGE_W, image_h=cfg.IMAGE_H, image_d=cfg.IMAGE_DEPTH)
@@ -830,7 +830,7 @@ def add_camera(V, cfg, camera_type):
     Add the configured camera to the vehicle pipeline.
 
     :param V: the vehicle pipeline.
-              On output this will be modified.
+            On output this will be modified.
     :param cfg: the configuration (from myconfig.py)
     """
     logger.info("cfg.CAMERA_TYPE %s"%cfg.CAMERA_TYPE)
@@ -869,10 +869,10 @@ def add_camera(V, cfg, camera_type):
             enable_imu=cfg.REALSENSE_D435_IMU,
             device_id=cfg.REALSENSE_D435_ID)
         V.add(cam, inputs=[],
-              outputs=['cam/image_array', 'cam/depth_array',
-                       'imu/acl_x', 'imu/acl_y', 'imu/acl_z',
-                       'imu/gyr_x', 'imu/gyr_y', 'imu/gyr_z'],
-              threaded=True)
+            outputs=['cam/image_array', 'cam/depth_array',
+                    'imu/acl_x', 'imu/acl_y', 'imu/acl_z',
+                    'imu/gyr_x', 'imu/gyr_y', 'imu/gyr_z'],
+            threaded=True)
     else:
         inputs = []
         outputs = ['cam/image_array']
@@ -890,7 +890,7 @@ def add_odometry(V, cfg, threaded=True):
     If the configuration support odometry, then
     add encoders, odometry and kinematics to the vehicle pipeline
     :param V: the vehicle pipeline.
-              On output this may be modified.
+            On output this may be modified.
     :param cfg: the configuration (from myconfig.py)
     """
     from donkeycar.parts.pose import BicyclePose, UnicyclePose
@@ -937,8 +937,8 @@ def add_drivetrain(V, cfg):
         is_differential_drive = cfg.DRIVE_TRAIN_TYPE.startswith("DC_TWO_WHEEL")
         if is_differential_drive:
             V.add(TwoWheelSteeringThrottle(),
-                  inputs=['throttle', 'steering'],
-                  outputs=['left/throttle', 'right/throttle'])
+                inputs=['throttle', 'steering'],
+                outputs=['left/throttle', 'right/throttle'])
 
         if cfg.DRIVE_TRAIN_TYPE == "PWM_STEERING_THROTTLE":
             #
@@ -1083,8 +1083,8 @@ def add_drivetrain(V, cfg):
             assert(cfg.STEERING_LEFT_PWM <= 200)
             assert(cfg.STEERING_RIGHT_PWM <= 200)
             steering = PWMSteering(controller=steering_controller,
-                                   left_pulse=cfg.STEERING_LEFT_PWM,
-                                   right_pulse=cfg.STEERING_RIGHT_PWM)
+                                left_pulse=cfg.STEERING_LEFT_PWM,
+                                right_pulse=cfg.STEERING_RIGHT_PWM)
 
             from donkeycar.parts.actuator import Mini_HBridge_DC_Motor_PWM
             motor = Mini_HBridge_DC_Motor_PWM(cfg.HBRIDGE_PIN_FWD, cfg.HBRIDGE_PIN_BWD)
@@ -1103,17 +1103,17 @@ def add_drivetrain(V, cfg):
             #
             from donkeycar.parts.actuator import PWMSteering, PWMThrottle, PiGPIO_PWM
             steering_controller = PiGPIO_PWM(cfg.STEERING_PWM_PIN, freq=cfg.STEERING_PWM_FREQ,
-                                             inverted=cfg.STEERING_PWM_INVERTED)
+                                            inverted=cfg.STEERING_PWM_INVERTED)
             steering = PWMSteering(controller=steering_controller,
-                                   left_pulse=cfg.STEERING_LEFT_PWM,
-                                   right_pulse=cfg.STEERING_RIGHT_PWM)
+                                left_pulse=cfg.STEERING_LEFT_PWM,
+                                right_pulse=cfg.STEERING_RIGHT_PWM)
 
             throttle_controller = PiGPIO_PWM(cfg.THROTTLE_PWM_PIN, freq=cfg.THROTTLE_PWM_FREQ,
-                                             inverted=cfg.THROTTLE_PWM_INVERTED)
+                                            inverted=cfg.THROTTLE_PWM_INVERTED)
             throttle = PWMThrottle(controller=throttle_controller,
-                                   max_pulse=cfg.THROTTLE_FORWARD_PWM,
-                                   zero_pulse=cfg.THROTTLE_STOPPED_PWM,
-                                   min_pulse=cfg.THROTTLE_REVERSE_PWM)
+                                max_pulse=cfg.THROTTLE_FORWARD_PWM,
+                                zero_pulse=cfg.THROTTLE_STOPPED_PWM,
+                                min_pulse=cfg.THROTTLE_REVERSE_PWM)
             V.add(steering, inputs=['steering'], threaded=True)
             V.add(throttle, inputs=['throttle'], threaded=True)
     
@@ -1121,13 +1121,13 @@ def add_drivetrain(V, cfg):
             from donkeycar.parts.actuator import VESC
             logger.info("Creating VESC at port {}".format(cfg.VESC_SERIAL_PORT))
             vesc = VESC(cfg.VESC_SERIAL_PORT,
-                          cfg.VESC_MAX_SPEED_PERCENT,
-                          cfg.VESC_HAS_SENSOR,
-                          cfg.VESC_START_HEARTBEAT,
-                          cfg.VESC_BAUDRATE,
-                          cfg.VESC_TIMEOUT,
-                          cfg.VESC_STEERING_SCALE,
-                          cfg.VESC_STEERING_OFFSET
+                        cfg.VESC_MAX_SPEED_PERCENT,
+                        cfg.VESC_HAS_SENSOR,
+                        cfg.VESC_START_HEARTBEAT,
+                        cfg.VESC_BAUDRATE,
+                        cfg.VESC_TIMEOUT,
+                        cfg.VESC_STEERING_SCALE,
+                        cfg.VESC_STEERING_OFFSET
                         )
             V.add(vesc, inputs=['steering', 'throttle'])
 
@@ -1140,7 +1140,7 @@ if __name__ == '__main__':
         model_type = args['--type']
         camera_type = args['--camera']
         drive(cfg, model_path=args['--model'], use_joystick=args['--js'],
-              model_type=model_type, camera_type=camera_type,
-              meta=args['--meta'])
+            model_type=model_type, camera_type=camera_type,
+            meta=args['--meta'])
     elif args['train']:
         print('Use python train.py instead.\n')

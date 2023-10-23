@@ -75,8 +75,8 @@ def drive(cfg, use_joystick=False, camera_type='single', meta=[]):
     # track user vs autopilot condition
     #
     V.add(UserPilotCondition(show_pilot_image=getattr(cfg, 'OVERLAY_IMAGE', False)),
-          inputs=['user/mode', "cam/image_array", "cv/image_array"],
-          outputs=['run_user', "run_pilot", "ui/image_array"])
+        inputs=['user/mode', "cam/image_array", "cv/image_array"],
+        outputs=['run_user', "run_pilot", "ui/image_array"])
 
     #
     # PID controller to be used with cv_controller
@@ -102,11 +102,11 @@ def drive(cfg, use_joystick=False, camera_type='single', meta=[]):
     # Computer Vision Controller
     #
     add_cv_controller(V, cfg, pid,
-                      cfg.CV_CONTROLLER_MODULE,
-                      cfg.CV_CONTROLLER_CLASS,
-                      cfg.CV_CONTROLLER_INPUTS,
-                      cfg.CV_CONTROLLER_OUTPUTS,
-                      cfg.CV_CONTROLLER_CONDITION)
+                    cfg.CV_CONTROLLER_MODULE,
+                    cfg.CV_CONTROLLER_CLASS,
+                    cfg.CV_CONTROLLER_INPUTS,
+                    cfg.CV_CONTROLLER_OUTPUTS,
+                    cfg.CV_CONTROLLER_CONDITION)
 
     recording_control = ToggleRecording(cfg.AUTO_RECORD_ON_THROTTLE, cfg.RECORD_DURING_AI)
     V.add(recording_control, inputs=['user/mode', "recording"], outputs=["recording"])
@@ -163,9 +163,9 @@ def drive(cfg, use_joystick=False, camera_type='single', meta=[]):
     # based on the choice of user or autopilot drive mode
     #
     V.add(DriveMode(cfg.AI_THROTTLE_MULT),
-          inputs=['user/mode', 'user/steering', 'user/throttle',
-                  'pilot/steering', 'pilot/throttle'],
-          outputs=['steering', 'throttle'])
+        inputs=['user/mode', 'user/steering', 'user/throttle',
+                'pilot/steering', 'pilot/throttle'],
+        outputs=['steering', 'throttle'])
 
 
     #
@@ -191,7 +191,7 @@ def drive(cfg, use_joystick=False, camera_type='single', meta=[]):
             'steering', 'throttle']
 
     types=['image_array',
-           'float', 'float']
+        'float', 'float']
 
     #
     # Create data storage part
