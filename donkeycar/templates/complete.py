@@ -901,8 +901,8 @@ def add_odometry(V, cfg, threaded=True):
         V.add(kinematics,
             inputs = ["throttle", "steering", None],
             outputs = ['enc/distance', 'enc/speed', 'pos/x', 'pos/y',
-                       'pos/angle', 'vel/x', 'vel/y', 'vel/angle',
-                       'nul/timestamp'],
+                    'pos/angle', 'vel/x', 'vel/y', 'vel/angle',
+                    'nul/timestamp'],
             threaded = threaded)
 
 
@@ -915,7 +915,7 @@ def add_imu(V, cfg):
         from donkeycar.parts.imu import IMU
 
         imu = IMU(sensor=cfg.IMU_SENSOR, addr=cfg.IMU_ADDRESS,
-                  dlp_setting=cfg.IMU_DLP_CONFIG)
+                dlp_setting=cfg.IMU_DLP_CONFIG)
         V.add(imu, outputs=['imu/acl_x', 'imu/acl_y', 'imu/acl_z',
                             'imu/gyr_x', 'imu/gyr_y', 'imu/gyr_z'], threaded=True)
     return imu

@@ -130,7 +130,7 @@ class PCA9685:
     PWM motor controler using PCA9685 boards. 
     This is used for most RC Cars
     '''
-    def __init__(self, channel, address, frequency=60, busnum=None, init_delay=0.1):
+    def __init__(self, channel, address=0x40, frequency=60, busnum=None, init_delay=0.1):
 
         self.default_freq = 60
         self.pwm_scale = frequency / self.default_freq
