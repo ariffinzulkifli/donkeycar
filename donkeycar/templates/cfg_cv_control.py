@@ -49,7 +49,8 @@ PATH_MASK = "~/mycar/data/tub_1_20-03-12/*.jpg"
 #
 # PCA9685, over rides only if needed, ie. TX2..
 #
-PCA9685_I2C_ADDR = 0x40     #I2C address, use i2cdetect to validate this number
+PCA9685_I2C_STEERING = 0x40     #I2C address, use i2cdetect to validate this number
+PCA9685_I2C_THROTTLE = 0x60     #I2C address, use i2cdetect to validate this number
 PCA9685_I2C_BUSNUM = None   #None will auto detect, which is fine on the pi. But other platforms should specify the bus num.
 
 
@@ -93,7 +94,7 @@ MAX_STEERING_ANGLE = 3.141592653589793 / 4  # for car-like robot; maximum steeri
 # (deprecated) "PIGPIO_PWM" uses Raspberrys internal PWM
 # (deprecated) "I2C_SERVO" uses PCA9685 servo controller to control a steering servo and an ESC, as in a standard RC car
 #
-DRIVE_TRAIN_TYPE = "PWM_STEERING_THROTTLE"
+DRIVE_TRAIN_TYPE = "I2C_SERVO"
 
 #
 # PWM_STEERING_THROTTLE drivetrain configuration

@@ -48,7 +48,7 @@ logging.basicConfig(level=logging.INFO)
 
 
 def drive(cfg, model_path=None, use_joystick=False, model_type=None,
-          camera_type='single', meta=[]):
+        camera_type='single', meta=[]):
     """
     Construct a working robotic vehicle from many parts. Each part runs as a
     job in the Vehicle loop, calling either it's run or run_threaded method
@@ -122,7 +122,7 @@ def drive(cfg, model_path=None, use_joystick=False, model_type=None,
     if cfg.SHOW_FPS:
         from donkeycar.parts.fps import FrequencyLogger
         V.add(FrequencyLogger(cfg.FPS_DEBUG_INTERVAL),
-              outputs=["fps/current", "fps/fps_list"])
+            outputs=["fps/current", "fps/fps_list"])
 
     #
     # add the user input controller(s)
@@ -975,12 +975,12 @@ def add_drivetrain(V, cfg):
             #
             from donkeycar.parts.actuator import PCA9685, PWMSteering, PWMThrottle
 
-            steering_controller = PCA9685(cfg.STEERING_CHANNEL, cfg.PCA9685_I2C_ADDR, busnum=cfg.PCA9685_I2C_BUSNUM)
+            steering_controller = PCA9685(cfg.STEERING_CHANNEL, cfg.PCA9685_I2C_STEERING, busnum=cfg.PCA9685_I2C_BUSNUM)
             steering = PWMSteering(controller=steering_controller,
                                             left_pulse=cfg.STEERING_LEFT_PWM,
                                             right_pulse=cfg.STEERING_RIGHT_PWM)
 
-            throttle_controller = PCA9685(cfg.THROTTLE_CHANNEL, cfg.PCA9685_I2C_ADDR, busnum=cfg.PCA9685_I2C_BUSNUM)
+            throttle_controller = PCA9685(cfg.THROTTLE_CHANNEL, cfg.PCA9685_I2C_THROTTLE, frequency=1600, busnum=cfg.PCA9685_I2C_BUSNUM)
             throttle = PWMThrottle(controller=throttle_controller,
                                             max_pulse=cfg.THROTTLE_FORWARD_PWM,
                                             zero_pulse=cfg.THROTTLE_STOPPED_PWM,
