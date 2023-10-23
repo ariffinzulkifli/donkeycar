@@ -148,28 +148,28 @@ class PCA9685:
         self.channel = channel
         time.sleep(init_delay) # "Tamiya TBLE-02" makes a little leap otherwise
 
-    def set_high(self):
-        self.pwm.set_pwm(self.channel, 4096, 0)
+    # def set_high(self):
+    #     self.pwm.set_pwm(self.channel, 4096, 0)
 
-    def set_low(self):
-        self.pwm.set_pwm(self.channel, 0, 4096)
+    # def set_low(self):
+    #     self.pwm.set_pwm(self.channel, 0, 4096)
 
-    def set_duty_cycle(self, duty_cycle):
-        if duty_cycle < 0 or duty_cycle > 1:
-            logging.error("duty_cycle must be in range 0 to 1")
-            duty_cycle = clamp(duty_cycle, 0, 1)
+    # def set_duty_cycle(self, duty_cycle):
+    #     if duty_cycle < 0 or duty_cycle > 1:
+    #         logging.error("duty_cycle must be in range 0 to 1")
+    #         duty_cycle = clamp(duty_cycle, 0, 1)
             
-        if duty_cycle == 1:
-            self.set_high()
-        elif duty_cycle == 0:
-            self.set_low()
-        else:
-            # duty cycle is fraction of the 12 bits
-            pulse = int(4096 * duty_cycle)
-            try:
-                self.pwm.set_pwm(self.channel, 0, pulse)
-            except:
-                self.pwm.set_pwm(self.channel, 0, pulse)
+    #     if duty_cycle == 1:
+    #         self.set_high()
+    #     elif duty_cycle == 0:
+    #         self.set_low()
+    #     else:
+    #         # duty cycle is fraction of the 12 bits
+    #         pulse = int(4096 * duty_cycle)
+    #         try:
+    #             self.pwm.set_pwm(self.channel, 0, pulse)
+    #         except:
+    #             self.pwm.set_pwm(self.channel, 0, pulse)
 
     def set_pulse(self, pulse):
         try:

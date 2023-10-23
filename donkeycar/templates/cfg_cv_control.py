@@ -122,14 +122,14 @@ DRIVE_TRAIN_TYPE = "I2C_SERVO"
 #
 #STEERING
 STEERING_CHANNEL = 0            #channel on the 9685 pwm board 0-15
-STEERING_LEFT_PWM = 280         #pwm value for full left steering
-STEERING_RIGHT_PWM = 450        #pwm value for full right steering
+STEERING_LEFT_PWM = 270         #pwm value for full left steering
+STEERING_RIGHT_PWM = 490        #pwm value for full right steering
 #
 #THROTTLE
-THROTTLE_CHANNEL = 1            #channel on the 9685 pwm board 0-15
+THROTTLE_CHANNEL = 0            #channel on the 9685 pwm board 0-15
 THROTTLE_FORWARD_PWM = 4095     #pwm value for max forward throttle
 THROTTLE_STOPPED_PWM = 0        #pwm value for no movement
-THROTTLE_REVERSE_PWM = -4095     #pwm value for max reverse throttle
+THROTTLE_REVERSE_PWM = -4095    #pwm value for max reverse throttle
 #
 # PIGPIO_PWM (deprecated in favor of PWM_STEERING_THROTTLE)
 #
