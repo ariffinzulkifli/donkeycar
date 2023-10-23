@@ -975,7 +975,7 @@ def add_drivetrain(V, cfg):
             #
             from donkeycar.parts.actuator import PCA9685, PWMSteering, PWMThrottle
 
-            steering_controller = PCA9685(cfg.STEERING_CHANNEL, cfg.PCA9685_I2C_STEERING, busnum=cfg.PCA9685_I2C_BUSNUM)
+            steering_controller = PCA9685(cfg.STEERING_CHANNEL, cfg.PCA9685_I2C_STEERING, frequency=60, busnum=cfg.PCA9685_I2C_BUSNUM)
             steering = PWMSteering(controller=steering_controller,
                                             left_pulse=cfg.STEERING_LEFT_PWM,
                                             right_pulse=cfg.STEERING_RIGHT_PWM)
