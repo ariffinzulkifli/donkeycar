@@ -10,9 +10,6 @@ PATH FOLLOWING: 'path_follow' template configurations
 
 import os
 
-
-import os
-
 #
 # FILE PATHS
 #
