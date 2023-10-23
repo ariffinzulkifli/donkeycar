@@ -281,30 +281,51 @@ class PiGPIO_PWM():
 
 class PWMSteering:
     """
-    Wrapper over a PWM motor cotnroller to convert angles to PWM pulses.
+    Wrapper over a PWM pulse controller to convert angles to PWM pulses.
     """
-    LEFT_ANGLE = -1 
+    LEFT_ANGLE = -1
     RIGHT_ANGLE = 1
 
-    def __init__(self, controller=None,
-                    left_pulse=290,
-                    right_pulse=490):
+    def __init__(self, controller, left_pulse, right_pulse):
+
+        if controller is None:
+            raise ValueError("PWMSteering requires a set_pulse controller to be passed")
+        set_pulse = getattr(controller, "set_pulse", None)
+        if set_pulse is None or not callable(set_pulse):
+            raise ValueError("controller must have a set_pulse method")
+        if not utils.is_number_type(left_pulse):
+            raise ValueError("left_pulse must be a number")
+        if not utils.is_number_type(right_pulse):
+            raise ValueError("right_pulse must be a number")
 
         self.controller = controller
         self.left_pulse = left_pulse
         self.right_pulse = right_pulse
+        self.pulse = dk.utils.map_range(0, self.LEFT_ANGLE, self.RIGHT_ANGLE,
+                                        self.left_pulse, self.right_pulse)
+        self.running = True
+        logger.info('PWM Steering created')
 
+    def update(self):
+        while self.running:
+            self.controller.set_pulse(self.pulse)
+
+    def run_threaded(self, angle):
+        # map absolute angle to angle that vehicle can implement.
+        angle = utils.clamp(angle, self.LEFT_ANGLE, self.RIGHT_ANGLE)
+        self.pulse = dk.utils.map_range(angle,
+                                        self.LEFT_ANGLE, self.RIGHT_ANGLE,
+                                        self.left_pulse, self.right_pulse)
 
     def run(self, angle):
-        #map absolute angle to angle that vehicle can implement.
-        pulse = dk.utils.map_range(angle,
-                                self.LEFT_ANGLE, self.RIGHT_ANGLE,
-                                self.left_pulse, self.right_pulse)
-
-        self.controller.set_pulse(pulse)
+        self.run_threaded(angle)
+        self.controller.set_pulse(self.pulse)
 
     def shutdown(self):
-        self.run(0) #set steering straight
+        # set steering straight
+        self.pulse = 0
+        time.sleep(0.3)
+        self.running = False
 
 
 class PWMThrottle:
