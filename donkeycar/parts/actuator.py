@@ -281,107 +281,84 @@ class PiGPIO_PWM():
 
 class PWMSteering:
     """
-    Wrapper over a PWM pulse controller to convert angles to PWM pulses.
+    Wrapper over a PWM motor cotnroller to convert angles to PWM pulses.
     """
-    LEFT_ANGLE = -1
+    LEFT_ANGLE = -1 
     RIGHT_ANGLE = 1
 
-    def __init__(self, controller, left_pulse, right_pulse):
-
-        if controller is None:
-            raise ValueError("PWMSteering requires a set_pulse controller to be passed")
-        set_pulse = getattr(controller, "set_pulse", None)
-        if set_pulse is None or not callable(set_pulse):
-            raise ValueError("controller must have a set_pulse method")
-        if not utils.is_number_type(left_pulse):
-            raise ValueError("left_pulse must be a number")
-        if not utils.is_number_type(right_pulse):
-            raise ValueError("right_pulse must be a number")
+    def __init__(self, controller=None,
+                    left_pulse=290,
+                    right_pulse=490):
 
         self.controller = controller
         self.left_pulse = left_pulse
         self.right_pulse = right_pulse
-        self.pulse = dk.utils.map_range(0, self.LEFT_ANGLE, self.RIGHT_ANGLE,
-                                        self.left_pulse, self.right_pulse)
-        self.running = True
-        logger.info('PWM Steering created')
 
-    def update(self):
-        while self.running:
-            self.controller.set_pulse(self.pulse)
-
-    def run_threaded(self, angle):
-        # map absolute angle to angle that vehicle can implement.
-        angle = utils.clamp(angle, self.LEFT_ANGLE, self.RIGHT_ANGLE)
-        self.pulse = dk.utils.map_range(angle,
-                                        self.LEFT_ANGLE, self.RIGHT_ANGLE,
-                                        self.left_pulse, self.right_pulse)
 
     def run(self, angle):
-        self.run_threaded(angle)
-        self.controller.set_pulse(self.pulse)
+        #map absolute angle to angle that vehicle can implement.
+        pulse = dk.utils.map_range(angle,
+                                self.LEFT_ANGLE, self.RIGHT_ANGLE,
+                                self.left_pulse, self.right_pulse)
+
+        self.controller.set_pulse(pulse)
 
     def shutdown(self):
-        # set steering straight
-        self.pulse = 0
-        time.sleep(0.3)
-        self.running = False
+        self.run(0) #set steering straight
 
 
 class PWMThrottle:
     """
-    Wrapper over a PWM pulse controller to convert -1 to 1 throttle
+    Wrapper over a PWM motor cotnroller to convert -1 to 1 throttle
     values to PWM pulses.
     """
     MIN_THROTTLE = -1
-    MAX_THROTTLE = 1
+    MAX_THROTTLE =  1
 
-    def __init__(self, controller, max_pulse, min_pulse, zero_pulse):
-
-        if controller is None:
-            raise ValueError("PWMThrottle requires a set_pulse controller to be passed")
-        set_pulse = getattr(controller, "set_pulse", None)
-        if set_pulse is None or not callable(set_pulse):
-            raise ValueError("controller must have a set_pulse method")
+    def __init__(self, controller=None,
+                    max_pulse=4095,
+                    min_pulse=-4095,
+                    zero_pulse=0):
 
         self.controller = controller
         self.max_pulse = max_pulse
         self.min_pulse = min_pulse
         self.zero_pulse = zero_pulse
-        self.pulse = zero_pulse
-
-        # send zero pulse to calibrate ESC
-        logger.info("Init ESC")
-        self.controller.set_pulse(self.max_pulse)
-        time.sleep(0.01)
-        self.controller.set_pulse(self.min_pulse)
-        time.sleep(0.01)
+        
+        #send zero pulse to calibrate ESC
+        print("Init ESC")
         self.controller.set_pulse(self.zero_pulse)
         time.sleep(1)
-        self.running = True
-        logger.info('PWM Throttle created')
 
-    def update(self):
-        while self.running:
-            self.controller.set_pulse(self.pulse)
-
-    def run_threaded(self, throttle):
-        throttle = utils.clamp(throttle, self.MIN_THROTTLE, self.MAX_THROTTLE)
-        if throttle > 0:
-            self.pulse = dk.utils.map_range(throttle, 0, self.MAX_THROTTLE,
-                                            self.zero_pulse, self.max_pulse)
-        else:
-            self.pulse = dk.utils.map_range(throttle, self.MIN_THROTTLE, 0,
-                                            self.min_pulse, self.zero_pulse)
 
     def run(self, throttle):
-        self.run_threaded(throttle)
-        self.controller.set_pulse(self.pulse)
-
+        if throttle > 0:
+            pulse = dk.utils.map_range(throttle,
+                                    0, self.MAX_THROTTLE, 
+                                    self.zero_pulse, self.max_pulse)
+            self.controller.pwm.set_pwm(self.controller.channel,0,pulse)
+            self.controller.pwm.set_pwm(self.controller.channel+1,0,4095)
+            self.controller.pwm.set_pwm(self.controller.channel+2,0,0)
+            self.controller.pwm.set_pwm(self.controller.channel+3,0,0)
+            self.controller.pwm.set_pwm(self.controller.channel+4,0,pulse)
+            self.controller.pwm.set_pwm(self.controller.channel+7,0,pulse)
+            self.controller.pwm.set_pwm(self.controller.channel+6,0,4095)
+            self.controller.pwm.set_pwm(self.controller.channel+5,0,0)      
+        else:
+            pulse = dk.utils.map_range(throttle,
+                                    self.MIN_THROTTLE, 0, 
+                                    self.min_pulse, self.zero_pulse)
+            self.controller.pwm.set_pwm(self.controller.channel,0,- pulse)
+            self.controller.pwm.set_pwm(self.controller.channel+2,0,4095)
+            self.controller.pwm.set_pwm(self.controller.channel+1,0,0)
+            self.controller.pwm.set_pwm(self.controller.channel+3,0,- pulse)
+            self.controller.pwm.set_pwm(self.controller.channel+4,0,0)
+            self.controller.pwm.set_pwm(self.controller.channel+7,0,- pulse)
+            self.controller.pwm.set_pwm(self.controller.channel+5,0,4095)
+            self.controller.pwm.set_pwm(self.controller.channel+6,0,0)
+        
     def shutdown(self):
-        # stop vehicle
-        self.run(0)
-        self.running = False
+        self.run(0) #stop vehicle
 
 
 #
