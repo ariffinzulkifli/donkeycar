@@ -241,9 +241,9 @@ def add_cv_controller(
 
         # add instance of class to vehicle
         V.add(my_class(pid, cfg),
-              inputs=inputs,
-              outputs=outputs,
-              run_condition=run_condition)
+            inputs=inputs,
+            outputs=outputs,
+            run_condition=run_condition)
 
 
 if __name__ == '__main__':
