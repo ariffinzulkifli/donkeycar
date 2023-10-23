@@ -365,7 +365,7 @@ WEB_CONTROL_PORT = int(os.getenv("WEB_CONTROL_PORT", 8887))  # which port to lis
 WEB_INIT_MODE = "user"              # which control mode to start in. one of user|local_angle|local. Setting local will start in ai mode.
 
 #JOYSTICK
-USE_JOYSTICK_AS_DEFAULT = True     #when starting the manage.py, when True, will not require a --js option to use the joystick
+USE_JOYSTICK_AS_DEFAULT = False     #when starting the manage.py, when True, will not require a --js option to use the joystick
 JOYSTICK_MAX_THROTTLE = 0.5         #this scalar is multiplied with the -1 to 1 throttle value to limit the maximum throttle. This can help if you drop the controller or just don't need the full speed available.
 JOYSTICK_STEERING_SCALE = 1.0       #some people want a steering that is less sensitve. This scalar is multiplied with the steering -1 to 1. It can be negative to reverse dir.
 AUTO_RECORD_ON_THROTTLE = False     #if true, we will record whenever throttle is not zero. if false, you must manually toggle recording with some other trigger. Usually circle button on joystick.
@@ -570,12 +570,12 @@ COLOR_THRESHOLD_HIGH = (50, 255, 255) # HSV light yellow (opencv HSV hue value i
 
 # LineFollower - target (expected) line position and detection thresholds
 TARGET_PIXEL = None   # In not None, then this is the expected horizontal position in pixels of the yellow line.
-                      # If None, then detect the position yellow line at startup;
-                      # so this assumes you have positioned the car prior to starting.
-                      # Alternatively set this to IMAGE_W / 2 to follow middle line
+                    # If None, then detect the position yellow line at startup;
+                    # so this assumes you have positioned the car prior to starting.
+                    # Alternatively set this to IMAGE_W / 2 to follow middle line
 TARGET_THRESHOLD = 10 # number of pixels from TARGET_PIXEL that vehicle must be pointing
-                      # before a steering change will be made; this prevents algorithm
-                      # from being too twitchy when it is on or near the line.
+                    # before a steering change will be made; this prevents algorithm
+                    # from being too twitchy when it is on or near the line.
 CONFIDENCE_THRESHOLD = 0.0015   # The fraction of total sampled pixels that must be yellow in the sample slice.
                                 # The sample slice will have SCAN_HEIGHT pixels and the total number
                                 # of sampled pixels is IMAGE_W x SCAN_HEIGHT, so if you want to make sure
@@ -601,7 +601,7 @@ PID_P_DELTA = 0.005   # amount the inc/dec function will change the P value
 PID_D_DELTA = 0.00005 # amount the inc/dec function will change the D value
 
 OVERLAY_IMAGE = True  # True to draw computer vision overlay on camera image in web ui
-                      # NOTE: this does not affect what is saved to the data
+                    # NOTE: this does not affect what is saved to the data
 
 
 #
