@@ -63,6 +63,7 @@ setup(name='donkeycar',
             'picamera2',
             'Adafruit_PCA9685',
             'adafruit-circuitpython-ssd1306',
+            'adafruit-circuitpython-ina219',
             'adafruit-circuitpython-rplidar',
             'RPi.GPIO',
             'tensorflow @ https://github.com/PINTO0309/Tensorflow-bin/releases/download/v2.12.0rc0/tensorflow-2.12.0rc0-cp311-none-linux_aarch64.whl'
