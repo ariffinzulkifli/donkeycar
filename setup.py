@@ -59,6 +59,7 @@ setup(name='donkeycar',
         # run 'sudo apt-get install libcap-dev' first.
         'pi': [
             'picamera2',
+            'pickle',
             'face_recognition',
             'Adafruit_PCA9685',
             'adafruit-circuitpython-ssd1306',
