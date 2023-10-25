@@ -10,7 +10,6 @@ from logging import getLogger
 
 logger = getLogger(__name__)
 
-
 class Config:
     
     def from_pyfile(self, filename):
