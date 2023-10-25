@@ -58,6 +58,7 @@ setup(name='donkeycar',
         # if installing into a conda (i.e. miniforge) env on Pi we have to
         # run 'sudo apt-get install libcap-dev' first.
         'pi': [
+            'imutils',
             'picamera2',
             'pickle',
             'face_recognition',
