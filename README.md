@@ -29,12 +29,12 @@ I recommend to use Raspberry Pi 4 with at least 4GB of RAM. It's also recommende
 ## Raspberry Pi OS Setup
 1. Run the following command to update the package lists:
 ```bash
-sudo apt-get update --allow-releaseinfo-change
+sudo apt update --allow-releaseinfo-change
 ```
 
 2. Upgrade installed packages to the latest versions:
 ```bash
-sudo apt-get upgrade
+sudo apt upgrade
 ```
 
 3. Configure `VNC` and `I2C`. Use the `raspi-config` tool to enable both VNC and I2C. This tool provides an interactive menu for configuring various settings on your Raspberry Pi:
