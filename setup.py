@@ -2,7 +2,6 @@ import os
 
 from setuptools import find_packages, setup
 
-
 # include the non python files
 def package_files(directory, strip_leading):
     paths = []
@@ -11,7 +10,6 @@ def package_files(directory, strip_leading):
             package_file = os.path.join(path, filename)
             paths.append(package_file[len(strip_leading):])
     return paths
-
 
 car_templates = ['templates/*']
 web_controller_html = package_files('donkeycar/parts/controllers/templates',
@@ -61,6 +59,7 @@ setup(name='donkeycar',
         # run 'sudo apt-get install libcap-dev' first.
         'pi': [
             'picamera2',
+            'face_recognition',
             'Adafruit_PCA9685',
             'adafruit-circuitpython-ssd1306',
             'adafruit-circuitpython-ina219',
