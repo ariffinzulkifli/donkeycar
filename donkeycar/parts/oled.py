@@ -2,11 +2,12 @@
 
 import subprocess
 import time
+import psutil
 from board import SCL, SDA
 import busio
 from PIL import Image, ImageDraw, ImageFont
 import adafruit_ssd1306
-
+import adafruit_ina219
 
 class OLEDDisplay(object):
     '''
@@ -37,7 +38,6 @@ class OLEDDisplay(object):
             # to the right size for your display!
             self.display = adafruit_ssd1306.SSD1306_I2C(128, self.height, i2c)
             self.display.rotation = self.rotation
-
 
             self.display.fill(0)
             self.display.show()
@@ -109,6 +109,8 @@ class OLEDPart(object):
             self.wlan0 = 'wlan0:%s' % (wlan0)
         else:
             self.wlan0 = None
+        self.battery_status = OLEDPart.get_battery_status()
+        self.hardware_status = OLEDPart.get_hardware_status()
 
     def run(self):
         if not self.on:
@@ -126,7 +128,8 @@ class OLEDPart(object):
         self.user_mode = 'User Mode (%s)' % (user_mode)
 
     def update_slots(self):
-        updates = [self.eth0, self.wlan0, self.recording, self.user_mode]
+        # updates = [self.eth0, self.wlan0, self.recording, self.user_mode]
+        updates = [self.battery_status, self.hardware_status, self.user_mode, self.recording]
         index = 0
         # Update slots
         for update in updates:
@@ -159,3 +162,58 @@ class OLEDPart(object):
     @classmethod
     def get_network_interface_state(cls, interface):
         return subprocess.check_output('cat /sys/class/net/%s/operstate' % interface, shell=True).decode('ascii')[:-1]
+    
+    @classmethod
+    def get_battery_status(cls):
+        '''
+        Initializes the INA219.
+        '''
+        Charge = False
+    
+        i2c = busio.I2C(SCL, SDA)
+        ina219 = adafruit_ina219.INA219(i2c, 0x41)
+    
+        if ina219 is not None:
+            bus_voltage = ina219.bus_voltage  # voltage on V- (load side)
+            shunt_voltage = ina219.shunt_voltage  # voltage between V+ and V- across the shunt
+            current = ina219.current  # current in mA
+            power = ina219.power  # power in watts
+
+            percentage = (bus_voltage - 9)/3.6*100
+            if(percentage > 100):percentage = 100
+            if(percentage < 0):percentage = 0
+            
+            if(current < 0):current = 0
+            if(current > 30):
+                Charge = not Charge
+            else:
+                Charge = False
+            
+            if(Charge == False):
+                return 'BA- {}%  {:.1f}V  {:.1f}A'.format(bus_voltage, current, percentage)
+            else:
+                return 'BA+ {}%  {:.1f}V  {:.1f}A'.format(bus_voltage, current, percentage)
+            
+    @classmethod
+    def get_hardware_status(cls):
+        # Get CPU usage percentage
+        cpu_percent = psutil.cpu_percent(interval=1)
+
+        # Get memory usage percentage
+        memory_percent = psutil.virtual_memory().percent
+
+        # Get disk usage percentage of the root directory '/'
+        disk_percent = psutil.disk_usage('/').percent
+
+        # Get system temperature (may require additional setup)
+        temperature = cls.get_system_temperature()
+
+        return 'C: {}% M: {}% D: {}% T: {}*C'.format(cpu_percent, memory_percent, disk_percent, temperature)
+
+    @classmethod
+    def get_system_temperature(cls):
+        # This command may vary depending on your system and OS.
+        # Below is an example for Raspberry Pi running Raspbian.
+        temperature = subprocess.check_output('/opt/vc/bin/vcgencmd measure_temp', shell=True)
+        temperature = temperature.decode('utf-8').strip().replace('temp=', '').replace("'C\n", '')
+        return temperature
