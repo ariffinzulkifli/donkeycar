@@ -16,15 +16,13 @@ Big salute and thank you to all Donkeycar [![contributors](https://img.shields.i
 
 You can access Donkeycar updates & examples from their website [http://donkeycar.com](http://donkeycar.com) or [build instructions and software documentation](http://docs.donkeycar.com) as well as [community chat on Discord](https://discord.gg/PN6kFeA).
 
-This repo is a fork from [Donkeycar](https://github.com/autorope/donkeycar) and modified to be use with [Waveshare PiRacer](https://www.waveshare.com/piracer-ai-kit.htm). PiRacer is using 2 [PCA9685](https://www.nxp.com/products/power-management/lighting-driver-and-controller-ics/led-controllers/16-channel-12-bit-pwm-fm-plus-ic-bus-led-controller:PCA9685) to control:
-1. Servo Motor for steering wheel. I2C Address: `0x40`
-2. [TB6612FNG](https://www.digikey.com/en/products/detail/toshiba-semiconductor-and-storage/TB6612FNG-C-8-EL/1730070) Motor Driver for motor throttle. I2C Address: `0x60`
+This repo is a fork from [Donkeycar](https://github.com/autorope/donkeycar) and modified to be use with [Waveshare PiRacer](https://www.waveshare.com/piracer-ai-kit.htm). PiRacer is using 2 units of [PCA9685](https://www.nxp.com/products/power-management/lighting-driver-and-controller-ics/led-controllers/16-channel-12-bit-pwm-fm-plus-ic-bus-led-controller:PCA9685) interface with to control:
+1. Servo Motor for steering the wheels. I2C Address: `0x40`
+2. [TB6612FNG](https://www.digikey.com/en/products/detail/toshiba-semiconductor-and-storage/TB6612FNG-C-8-EL/1730070) Motor Driver to control motor throttle and direction. I2C Address: `0x60`
 
 ## Hardware Requirements
 
 I recommend to use Raspberry Pi 4 with at least 4GB of RAM. It's also recommended using a > 64GB microSD card.
-
-## Directory Layout
 
 ## Raspberry Pi OS Setup
 1. Run the following command to update the package lists:
