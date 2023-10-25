@@ -179,7 +179,7 @@ class OLEDPart(object):
             current = ina219.current  # current in mA
             power = ina219.power  # power in watts
 
-            percentage = (bus_voltage - 9)/3.6*100
+            percentage = (bus_voltage - 9) / 3.6 * 100
             if(percentage > 100):percentage = 100
             if(percentage < 0):percentage = 0
             
