@@ -36,7 +36,7 @@ while True:
     
     if(current < 0):current = 0
     if(current > 30):
-        Charge = not Charge
+        Charge = True
     else:
         Charge = False
 
