@@ -41,17 +41,18 @@ while True:
         Charge = False
 
     # INA219 measure bus voltage on the load side. So PSU voltage = bus_voltage + shunt_voltage
-    print('Voltage (VIN+) : {:6.3f} V'.format(bus_voltage + shunt_voltage))
-    print('Voltage (VIN-) : {:6.3f} V'.format(bus_voltage))
-    print('Shunt Voltage  : {:8.5f} V'.format(shunt_voltage))
-    print('Shunt Current  : {:7.4f} A'.format(current / 1000))
-    print('Power Calc.    : {:8.5f} W'.format(bus_voltage * (current / 1000)))
-    print('Power Register : {:6.3f} W'.format(power))
+    print('Voltage (VIN+) : {:.2f} V'.format(bus_voltage + shunt_voltage))
+    print('Voltage (VIN-) : {:.2f} V'.format(bus_voltage))
+    print('Shunt Voltage  : {:.2f} V'.format(shunt_voltage))
+    print('Shunt Current  : {:.2f} A'.format(current / 1000))
+    print('Power Calc.    : {:.2f} W'.format(bus_voltage * (current / 1000)))
+    print('Power Register : {:.2f} W'.format(power))
+    print('Percentage     : {:.2f} W'.format(percentage))
 
     if(Charge == False):
-        print('BA- {}%'.format(percentage))
+        print('Charging Status: None')
     else:
-        print('BA+ {}%'.format(percentage))
+        print('Charging Status: Charging')
     
     print('')
 
