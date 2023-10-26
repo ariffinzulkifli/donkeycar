@@ -208,4 +208,4 @@ class OLEDPart(object):
         # Get RAM usage
         ram_usage = psutil.virtual_memory().percent
 
-        return 'C:{:.0f}% R:{:.0f}% C:{:.0f}C G:{:.0f}C'.format(cpu_usage, ram_usage, cpu_temp, gpu_temp)
+        return 'C:{:.0f}% R:{:.0f}% C:{:.0f}C G:{}C'.format(cpu_usage, ram_usage, cpu_temp, gpu_temp)
