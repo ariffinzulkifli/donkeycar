@@ -196,7 +196,7 @@ class OLEDPart(object):
     def get_hardware_status(cls):
         # Get GPU temperature
         gpu_temp = subprocess.check_output('vcgencmd measure_temp', shell=True).decode('utf-8').strip()
-        gpu_temp = int(gpu_temp.replace('temp=', '').replace('\'C', ''))
+        gpu_temp = gpu_temp.replace('temp=', '').replace('\'C', '')
 
         # Get CPU temperature
         cpu_temp = subprocess.check_output('cat /sys/class/thermal/thermal_zone0/temp', shell=True).decode('utf-8').strip()
