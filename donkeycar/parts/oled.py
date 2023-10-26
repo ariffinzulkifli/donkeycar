@@ -110,7 +110,6 @@ class OLEDPart(object):
         else:
             self.wlan0 = None
         self.battery_status = OLEDPart.get_battery_status()
-        self.hardware_status = OLEDPart.get_hardware_status()
 
     def run(self):
         if not self.on:
@@ -196,24 +195,18 @@ class OLEDPart(object):
             
     @classmethod
     def get_hardware_status(cls):
-        # Get CPU usage percentage
-        cpu_percent = psutil.cpu_percent(interval=1)
+        # Get GPU temperature
+        gpu_temp = subprocess.check_output('vcgencmd measure_temp', shell=True).decode('utf-8').strip()
+        gpu_temp = gpu_temp.replace('temp=', '').replace('\'C', '')
 
-        # Get memory usage percentage
-        memory_percent = psutil.virtual_memory().percent
+        # Get CPU temperature
+        cpu_temp = subprocess.check_output('cat /sys/class/thermal/thermal_zone0/temp', shell=True).decode('utf-8').strip()
+        cpu_temp = round(float(cpu_temp) / 1000.00, 2)
 
-        # Get disk usage percentage of the root directory '/'
-        disk_percent = psutil.disk_usage('/').percent
+        # Get CPU usage
+        cpu_usage = psutil.cpu_percent(interval=1)
 
-        # Get system temperature (may require additional setup)
-        temperature = cls.get_system_temperature()
+        # Get RAM usage
+        ram_usage = psutil.virtual_memory().percent
 
-        return 'C: {}% M: {}% D: {}% T: {}*C'.format(cpu_percent, memory_percent, disk_percent, temperature)
-
-    @classmethod
-    def get_system_temperature(cls):
-        # This command may vary depending on your system and OS.
-        # Below is an example for Raspberry Pi running Raspbian.
-        temperature = subprocess.check_output('/opt/vc/bin/vcgencmd measure_temp', shell=True)
-        temperature = temperature.decode('utf-8').strip().replace('temp=', '').replace("'C\n", '')
-        return temperature
+        return 'C: {}% R: {}% C: {}C G: {}C'.format(cpu_usage, ram_usage, cpu_temp, gpu_temp)
