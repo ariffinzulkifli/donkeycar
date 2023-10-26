@@ -60,7 +60,6 @@ setup(name='donkeycar',
         'pi': [
             'imutils',
             'picamera2',
-            'pickle',
             'face_recognition',
             'Adafruit_PCA9685',
             'adafruit-circuitpython-ssd1306',
