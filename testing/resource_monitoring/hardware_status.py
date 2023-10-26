@@ -15,7 +15,7 @@ gpu_temp = gpu_temp.replace('temp=', '')
 
 # Get CPU temperature
 cpu_temp = subprocess.check_output('cat /sys/class/thermal/thermal_zone0/temp', shell=True).decode('utf-8').strip()
-cpu_temp = cpu_temp / 1000.00
+cpu_temp = int(cpu_temp) / 1000.00
 
 # Get CPU usage
 cpu_usage = psutil.cpu_percent(interval=1)
