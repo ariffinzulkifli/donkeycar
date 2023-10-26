@@ -175,7 +175,7 @@ class OLEDPart(object):
     
         if ina219 is not None:
             bus_voltage = ina219.bus_voltage  # voltage on V- (load side)
-            current = ina219.current  # current in mA
+            current = ina219.current * 1000.00  # current in mA
 
             percentage = (bus_voltage - 9) / 3.6 * 100
             if(percentage > 100):percentage = 100
@@ -188,9 +188,9 @@ class OLEDPart(object):
                 Charge = False
             
             if(Charge == False):
-                return 'BA- {}%  {:.1f}V  {:.1f}A'.format(bus_voltage, current, percentage)
+                return 'BA- {:.0f}%  {:.1f}V  {:.1f}A'.format(percentage, bus_voltage, current)
             else:
-                return 'BA+ {}%  {:.1f}V  {:.1f}A'.format(bus_voltage, current, percentage)
+                return 'BA+ {:.0f}%  {:.1f}V  {:.1f}A'.format(percentage, bus_voltage, current)
             
     @classmethod
     def get_hardware_status(cls):
@@ -208,4 +208,4 @@ class OLEDPart(object):
         # Get RAM usage
         ram_usage = psutil.virtual_memory().percent
 
-        return 'C: {}% R: {}% C: {}C G: {}C'.format(cpu_usage, ram_usage, cpu_temp, gpu_temp)
+        return 'C:{:.0f}% R:{:.0f}% C:{:.0f}C G:{:.0f}C'.format(cpu_usage, ram_usage, cpu_temp, gpu_temp)
