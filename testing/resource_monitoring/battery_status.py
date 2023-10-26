@@ -23,42 +23,46 @@ ina219.shunt_adc_resolution = ADCResolution.ADCRES_12BIT_32S
 # optional : change voltage range to 16V
 ina219.bus_voltage_range = BusVoltageRange.RANGE_16V
 
-# measure and display loop
-while True:
-    bus_voltage = ina219.bus_voltage  # voltage on V- (load side)
-    shunt_voltage = ina219.shunt_voltage  # voltage between V+ and V- across the shunt
-    current = ina219.current  # current in mA
-    power = ina219.power  # power in watts
+try:
+    # measure and display loop
+    while True:
+        bus_voltage = ina219.bus_voltage  # voltage on V- (load side)
+        shunt_voltage = ina219.shunt_voltage  # voltage between V+ and V- across the shunt
+        current = ina219.current  # current in mA
+        power = ina219.power  # power in watts
 
-    percentage = (bus_voltage - 9) / 3.6 * 100
-    if(percentage > 100):percentage = 100
-    if(percentage < 0):percentage = 0
-    
-    if(current < 0):current = 0
-    if(current > 30):
-        Charge = True
-    else:
-        Charge = False
+        percentage = (bus_voltage - 9) / 3.6 * 100
+        if(percentage > 100):percentage = 100
+        if(percentage < 0):percentage = 0
+        
+        if(current < 0):current = 0
+        if(current > 30):
+            Charge = True
+        else:
+            Charge = False
 
-    # INA219 measure bus voltage on the load side. So PSU voltage = bus_voltage + shunt_voltage
-    print('Voltage (VIN+) : {:.2f} V'.format(bus_voltage + shunt_voltage))
-    print('Voltage (VIN-) : {:.2f} V'.format(bus_voltage))
-    print('Shunt Voltage  : {:.2f} V'.format(shunt_voltage))
-    print('Shunt Current  : {:.2f} A'.format(current / 1000))
-    print('Power Calc.    : {:.2f} W'.format(bus_voltage * (current / 1000)))
-    print('Power Register : {:.2f} W'.format(power))
-    print('Percentage     : {:.2f} %'.format(percentage))
+        # INA219 measure bus voltage on the load side. So PSU voltage = bus_voltage + shunt_voltage
+        print('Voltage (VIN+) : {:.2f} V'.format(bus_voltage + shunt_voltage))
+        print('Voltage (VIN-) : {:.2f} V'.format(bus_voltage))
+        print('Shunt Voltage  : {:.2f} V'.format(shunt_voltage))
+        print('Shunt Current  : {:.2f} A'.format(current / 1000))
+        print('Power Calc.    : {:.2f} W'.format(bus_voltage * (current / 1000)))
+        print('Power Register : {:.2f} W'.format(power))
+        print('Percentage     : {:.2f} %'.format(percentage))
 
-    if(Charge == False):
-        print('Charging Status: None')
-    else:
-        print('Charging Status: Charging')
-    
-    print('')
-
-    # Check internal calculations haven't overflowed (doesn't detect ADC overflows)
-    if ina219.overflow:
-        print('Internal Math Overflow Detected!')
+        if(Charge == False):
+            print('Charging Status: None')
+        else:
+            print('Charging Status: Charging')
+        
         print('')
 
-    time.sleep(2)
+        # Check internal calculations haven't overflowed (doesn't detect ADC overflows)
+        if ina219.overflow:
+            print('Internal Math Overflow Detected!')
+            print('')
+
+        time.sleep(2)
+        
+except KeyboardInterrupt:
+    pass
