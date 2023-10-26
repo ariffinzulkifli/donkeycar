@@ -1,29 +1,56 @@
-import donkeycar as dk
-from donkeycar.parts.actuator import PCA9685, PWMSteering, PWMThrottle
+import Adafruit_PCA9685
 
-# Initialize car
-V = dk.vehicle.Vehicle()
+# Initialize the PCA9685 using a specific I2C address (0x60).
+pwm = Adafruit_PCA9685.PCA9685(0x60)
 
-# Initialize PCA9685 controllers and actuators
-throttle_controller = PCA9685(channel=0, address=0x60, frequency=1600, busnum=None)
-throttle = PWMThrottle(controller=throttle_controller, max_pulse=4095, zero_pulse=0, min_pulse=-4095)
+# Set the PWM frequency to 1600 Hz.
+pwm.set_pwm_freq(1600)
 
-# Add actuators to the vehicle
-V.add(throttle, inputs=['throttle'])
+# Define a function to move the motor forward with a given throttle value.
+def forward(throttle):
+    pwm.set_pwm(0, 0, throttle)
+    pwm.set_pwm(1, 0, 4095)
+    pwm.set_pwm(2, 0, 0)
+    pwm.set_pwm(3, 0, 0)
+    pwm.set_pwm(4, 0, throttle)
+    pwm.set_pwm(7, 0, throttle)
+    pwm.set_pwm(6, 0, 4095)
+    pwm.set_pwm(5, 0, 0)
 
-# Define a function to update the inputs from the terminal
-def update_inputs():
-    # Capture throttle input from the terminal
-    throttle_input = float(input("Enter throttle input (-1 to 1): "))
-    
-    # Ensure the input is within the valid range
-    throttle_input = max(-1.0, min(1.0, throttle_input))
+# Define a function to move the motor in reverse with a given throttle value.
+def reverse(throttle):
+    pwm.set_pwm(0, 0, -throttle)
+    pwm.set_pwm(2, 0, 4095)
+    pwm.set_pwm(1, 0, 0)
+    pwm.set_pwm(3, 0, -throttle)
+    pwm.set_pwm(4, 0, 0)
+    pwm.set_pwm(7, 0, -throttle)
+    pwm.set_pwm(5, 0, 4095)
+    pwm.set_pwm(6, 0, 0)
 
-    # Set the inputs for throttle
-    V.input['throttle'] = throttle_input
+# Define a function to stop the motor.
+def stop():
+    pwm.set_pwm(0, 0, 0)
+    pwm.set_pwm(2, 0, 4095)
+    pwm.set_pwm(1, 0, 0)
+    pwm.set_pwm(3, 0, 0)
+    pwm.set_pwm(4, 0, 0)
+    pwm.set_pwm(7, 0, 0)
+    pwm.set_pwm(5, 0, 4095)
+    pwm.set_pwm(6, 0, 0)
 
-# Run the vehicle with the defined inputs
-V.start(update_inputs)
+print('Max Speed Forward: 4095 || Max Speed Reverse: -4095')
 
-# Stop the vehicle when done
-V.stop()
+try:
+    while True:
+        # Motor speed and direction based on user input.
+        throttle = int(input('Throttle (-4095 - 4095): '))
+        
+        if throttle > 0:
+            forward(throttle)  # Move forward if throttle is positive.
+        else:
+            reverse(throttle)  # Move in reverse if throttle is non-positive.
+
+except KeyboardInterrupt:
+    stop()  # Stop the motor if Ctrl+C is pressed.
+    pass
