@@ -8,9 +8,9 @@ pwm.set_pwm_freq(60)
 try:
     while True:
         # Move servo based on input
-        angle = int(input('Servo Angle (280-420): '))
-        if 280 <= angle <= 420:
-            pwm.set_pwm(0, 0, angle)
+        steering = int(input('Servo Angle (280-420): '))
+        if 280 <= steering <= 420:
+            pwm.set_pwm(0, 0, steering)
         else:
             print('Invalid input! Angle must be between 280 and 420.')
 
