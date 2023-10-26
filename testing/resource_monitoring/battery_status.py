@@ -47,7 +47,7 @@ while True:
     print('Shunt Current  : {:.2f} A'.format(current / 1000))
     print('Power Calc.    : {:.2f} W'.format(bus_voltage * (current / 1000)))
     print('Power Register : {:.2f} W'.format(power))
-    print('Percentage     : {:.2f} W'.format(percentage))
+    print('Percentage     : {:.2f} %'.format(percentage))
 
     if(Charge == False):
         print('Charging Status: None')
