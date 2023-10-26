@@ -200,12 +200,12 @@ class OLEDPart(object):
 
         # Get CPU temperature
         cpu_temp = subprocess.check_output('cat /sys/class/thermal/thermal_zone0/temp', shell=True).decode('utf-8').strip()
-        cpu_temp = round(float(cpu_temp) / 1000.00)
+        cpu_temp = int(float(cpu_temp) / 1000.00)
 
         # Get CPU usage
-        cpu_usage = psutil.cpu_percent(interval=1)
+        cpu_usage = int(psutil.cpu_percent(interval=1))
 
         # Get RAM usage
-        ram_usage = psutil.virtual_memory().percent
+        ram_usage = int(psutil.virtual_memory().percent)
 
         return 'C:{}% R:{}% C:{}C G:{}C'.format(cpu_usage, ram_usage, cpu_temp, gpu_temp)
