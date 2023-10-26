@@ -1,29 +1,33 @@
-import donkeycar as dk
-from donkeycar.parts.actuator import PCA9685, PWMSteering, PWMThrottle
+import Adafruit_PCA9685
 
-# Initialize car
-V = dk.vehicle.Vehicle()
+# Initialise the PCA9685 using the default address (0x40).
+pwm = Adafruit_PCA9685.PCA9685()
 
-# Initialize PCA9685 controllers and actuators
-steering_controller = PCA9685(channel=0, address=0x40, busnum=None)
-steering = PWMSteering(controller=steering_controller, left_pulse=270, right_pulse=490)
+# Alternatively specify a different address and/or bus:
+#pwm = Adafruit_PCA9685.PCA9685(address=0x41, busnum=2)
 
-# Add actuators to the vehicle
-V.add(steering, inputs=['steering'])
+# Helper function to make setting a servo pulse width simpler.
+def set_servo_pulse(channel, pulse):
+    pulse_length = 1000000    # 1,000,000 us per second
+    pulse_length //= 60       # 60 Hz
+    print('{0}us per period'.format(pulse_length))
+    pulse_length //= 4096     # 12 bits of resolution
+    print('{0}us per bit'.format(pulse_length))
+    pulse *= 1000
+    pulse //= pulse_length
+    pwm.set_pwm(channel, 0, pulse)
 
-# Define a function to update the inputs from the terminal
-def update_inputs():
-    # Capture steering input from the terminal
-    steering_input = float(input("Enter steering input (-1 to 1): "))
-    
-    # Ensure the input is within the valid range
-    steering_input = max(-1.0, min(1.0, steering_input))
+pwm.set_pwm_freq(60)
 
-    # Set the inputs for steering 
-    V.input['steering'] = steering_input
+try:
+    while True:
+        # Move servo based on input
+        angle = int(input('Servo Angle (280-420): '))
+        if 280 <= angle <= 420:
+            pwm.set_pwm(0, 0, angle)
+        else:
+            print('Invalid input! Angle must be between 280 and 420.')
 
-# Run the vehicle with the defined inputs
-V.start(update_inputs)
-
-# Stop the vehicle when done
-V.stop()
+except KeyboardInterrupt:
+    pwm.set_pwm(0, 0, 350)  # Set to middle position
+    pass
