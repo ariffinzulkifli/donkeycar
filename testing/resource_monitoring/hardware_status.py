@@ -30,13 +30,13 @@ swap_usage = psutil.swap_memory().percent
 hostname = subprocess.check_output('hostname', shell=True).decode('utf-8').strip()
 
 # Format the result
-result = f'Raspberry Pi Hostname: {hostname}'
+result = f'Raspberry Pi Hostname: {hostname}\n'
 result += f'Timestamp: {current_time}\n'
 result += f'Epoch Time: {epoch_time}\n'
 result += f'GPU Temperature: {gpu_temp} ˚C\n'
 result += f'CPU Temperature: {cpu_temp} ˚C\n'
 result += f'CPU Usage: {cpu_usage} %\n'
 result += f'RAM Usage: {ram_usage} %\n'
-result += f'Swap Usage: {swap_usage} %\n'
+result += f'Swap Usage: {swap_usage} %'
 
 print(result)
