@@ -10,7 +10,7 @@ uptime = subprocess.check_output('cat /proc/uptime', shell=True).decode('utf-8')
 epoch_time = float(uptime)
 
 # Get GPU temperature
-gpu_temp = subprocess.check_output("/opt/vc/bin/vcgencmd measure_temp", shell=True).decode("utf-8").strip()
+gpu_temp = subprocess.check_output("vcgencmd measure_temp", shell=True).decode("utf-8").strip()
 gpu_temp = gpu_temp.replace("temp=", "")
 
 # Get CPU temperature
