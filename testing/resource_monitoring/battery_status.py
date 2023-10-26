@@ -30,13 +30,29 @@ while True:
     current = ina219.current  # current in mA
     power = ina219.power  # power in watts
 
+    percentage = (bus_voltage - 9) / 3.6 * 100
+    if(percentage > 100):percentage = 100
+    if(percentage < 0):percentage = 0
+    
+    if(current < 0):current = 0
+    if(current > 30):
+        Charge = not Charge
+    else:
+        Charge = False
+
     # INA219 measure bus voltage on the load side. So PSU voltage = bus_voltage + shunt_voltage
-    print('Voltage (VIN+) : {:6.3f}   V'.format(bus_voltage + shunt_voltage))
-    print('Voltage (VIN-) : {:6.3f}   V'.format(bus_voltage))
+    print('Voltage (VIN+) : {:6.3f} V'.format(bus_voltage + shunt_voltage))
+    print('Voltage (VIN-) : {:6.3f} V'.format(bus_voltage))
     print('Shunt Voltage  : {:8.5f} V'.format(shunt_voltage))
-    print('Shunt Current  : {:7.4f}  A'.format(current / 1000))
+    print('Shunt Current  : {:7.4f} A'.format(current / 1000))
     print('Power Calc.    : {:8.5f} W'.format(bus_voltage * (current / 1000)))
-    print('Power Register : {:6.3f}   W'.format(power))
+    print('Power Register : {:6.3f} W'.format(power))
+
+    if(Charge == False):
+        print('BA- {}%'.format(percentage))
+    else:
+        print('BA+ {}%'.format(percentage))
+    
     print('')
 
     # Check internal calculations haven't overflowed (doesn't detect ADC overflows)
