@@ -15,6 +15,14 @@ uptime_seconds = float(uptime_str)
 uptime_timedelta = timedelta(seconds=uptime_seconds)
 uptime_readable = str(uptime_timedelta)
 
+# Extract days, hours, and minutes from the timedelta
+days = uptime_timedelta.days
+hours, remainder = divmod(uptime_timedelta.seconds, 3600)
+minutes = remainder // 60
+
+# Format the uptime as "3 days 2 hours 13 minutes"
+uptime_readable = f"{days} days {hours} hours {minutes} minutes"
+
 # Get GPU temperature
 gpu_temp = subprocess.check_output('vcgencmd measure_temp', shell=True).decode('utf-8').strip()
 gpu_temp = gpu_temp.replace('temp=', '').replace('\'C', '')
