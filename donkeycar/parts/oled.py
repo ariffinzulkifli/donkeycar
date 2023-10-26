@@ -109,8 +109,6 @@ class OLEDPart(object):
             self.wlan0 = 'wlan0:%s' % (wlan0)
         else:
             self.wlan0 = None
-        self.battery_status = OLEDPart.get_battery_status()
-        self.hardware_status = OLEDPart.get_hardware_status()
 
     def run(self):
         if not self.on:
@@ -126,6 +124,9 @@ class OLEDPart(object):
             self.recording = 'NO (Records = %s)' % (self.num_records)
 
         self.user_mode = 'User Mode (%s)' % (user_mode)
+
+        self.battery_status = OLEDPart.get_battery_status()
+        self.hardware_status = OLEDPart.get_hardware_status()
 
     def update_slots(self):
         # updates = [self.eth0, self.wlan0, self.recording, self.user_mode]
