@@ -1,13 +1,17 @@
 import subprocess
 import psutil
-from datetime import datetime
+from datetime import datetime, timedelta
 
 # Get system date and time
 current_time = datetime.now().strftime('%y-%m-%d %H:%M:%S')
 
 # Get system uptime
-uptime = subprocess.check_output('cat /proc/uptime', shell=True).decode('utf-8').split()[0]
-epoch_time = float(uptime)
+uptime_seconds = subprocess.check_output('cat /proc/uptime', shell=True).decode('utf-8').split()[0]
+# epoch_time = float(uptime_seconds)
+
+# Convert uptime to a human-readable format
+uptime_timedelta = timedelta(seconds=uptime_seconds)
+uptime_readable = str(uptime_timedelta)
 
 # Get GPU temperature
 gpu_temp = subprocess.check_output('vcgencmd measure_temp', shell=True).decode('utf-8').strip()
@@ -31,8 +35,7 @@ hostname = subprocess.check_output('hostname', shell=True).decode('utf-8').strip
 
 # Format the result
 result = f'Raspberry Pi Hostname: {hostname}\n'
-result += f'Timestamp: {current_time}\n'
-result += f'Epoch Time: {epoch_time}\n'
+result += f'Uptime: {uptime_readable}\n'
 result += f'GPU Temperature: {gpu_temp} ˚C\n'
 result += f'CPU Temperature: {cpu_temp} ˚C\n'
 result += f'CPU Usage: {cpu_usage} %\n'
