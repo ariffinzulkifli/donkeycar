@@ -5,9 +5,11 @@ from datetime import datetime, timedelta
 # Get system date and time
 current_time = datetime.now().strftime('%y-%m-%d %H:%M:%S')
 
-# Get system uptime
-uptime_seconds = subprocess.check_output('cat /proc/uptime', shell=True).decode('utf-8').split()[0]
-# epoch_time = float(uptime_seconds)
+# Get system uptime as a string
+uptime_str = subprocess.check_output('cat /proc/uptime', shell=True).decode('utf-8').split()[0]
+
+# Convert uptime string to a float
+uptime_seconds = float(uptime_str)
 
 # Convert uptime to a human-readable format
 uptime_timedelta = timedelta(seconds=uptime_seconds)
