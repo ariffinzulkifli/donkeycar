@@ -117,7 +117,7 @@ class OLEDPart(object):
         if not self.on:
             self.on = True
 
-    def run_threaded(self, recording, num_records, user_mode, battery_status, hardware_status):
+    def run_threaded(self, recording, num_records, user_mode):
         if num_records is not None and num_records > 0:
             self.num_records = num_records
 
