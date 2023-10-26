@@ -110,6 +110,7 @@ class OLEDPart(object):
         else:
             self.wlan0 = None
         self.battery_status = OLEDPart.get_battery_status()
+        self.hardware_status = OLEDPart.get_hardware_status()
 
     def run(self):
         if not self.on:
@@ -174,9 +175,7 @@ class OLEDPart(object):
     
         if ina219 is not None:
             bus_voltage = ina219.bus_voltage  # voltage on V- (load side)
-            shunt_voltage = ina219.shunt_voltage  # voltage between V+ and V- across the shunt
             current = ina219.current  # current in mA
-            power = ina219.power  # power in watts
 
             percentage = (bus_voltage - 9) / 3.6 * 100
             if(percentage > 100):percentage = 100
