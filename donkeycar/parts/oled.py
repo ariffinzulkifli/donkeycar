@@ -110,14 +110,14 @@ class OLEDPart(object):
         else:
             self.wlan0 = None
 
-    def run(self):
-        if not self.on:
-            self.on = True
-            
         self.battery_status = OLEDPart.get_battery_status()
         self.hardware_status = OLEDPart.get_hardware_status()
 
-    def run_threaded(self, recording, num_records, user_mode):
+    def run(self):
+        if not self.on:
+            self.on = True
+
+    def run_threaded(self, recording, num_records, user_mode, battery_status, hardware_status):
         if num_records is not None and num_records > 0:
             self.num_records = num_records
 
@@ -127,6 +127,9 @@ class OLEDPart(object):
             self.recording = 'NO (Records = %s)' % (self.num_records)
 
         self.user_mode = 'User Mode (%s)' % (user_mode)
+
+        self.battery_status = OLEDPart.get_battery_status()
+        self.hardware_status = OLEDPart.get_hardware_status()
 
     def update_slots(self):
         # updates = [self.eth0, self.wlan0, self.recording, self.user_mode]
