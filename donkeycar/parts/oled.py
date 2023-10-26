@@ -175,7 +175,7 @@ class OLEDPart(object):
     
         if ina219 is not None:
             bus_voltage = ina219.bus_voltage  # voltage on V- (load side)
-            current = ina219.current * 1000.00  # current in mA
+            current = ina219.current / 1000.00  # current in mA
 
             percentage = (bus_voltage - 9) / 3.6 * 100
             if(percentage > 100):percentage = 100
@@ -196,11 +196,11 @@ class OLEDPart(object):
     def get_hardware_status(cls):
         # Get GPU temperature
         gpu_temp = subprocess.check_output('vcgencmd measure_temp', shell=True).decode('utf-8').strip()
-        gpu_temp = gpu_temp.replace('temp=', '').replace('\'C', '')
+        gpu_temp = int(gpu_temp.replace('temp=', '').replace('\'C', ''))
 
         # Get CPU temperature
         cpu_temp = subprocess.check_output('cat /sys/class/thermal/thermal_zone0/temp', shell=True).decode('utf-8').strip()
-        cpu_temp = round(float(cpu_temp) / 1000.00, 2)
+        cpu_temp = round(float(cpu_temp) / 1000.00)
 
         # Get CPU usage
         cpu_usage = psutil.cpu_percent(interval=1)
@@ -208,4 +208,4 @@ class OLEDPart(object):
         # Get RAM usage
         ram_usage = psutil.virtual_memory().percent
 
-        return 'C:{:.0f}% R:{:.0f}% C:{:.0f}C G:{}C'.format(cpu_usage, ram_usage, cpu_temp, gpu_temp)
+        return 'C:{}% R:{}% C:{}C G:{}C'.format(cpu_usage, ram_usage, cpu_temp, gpu_temp)
