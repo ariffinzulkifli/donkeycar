@@ -22,7 +22,7 @@ You can access Donkeycar updates & examples from their website [http://donkeycar
 
 This repo is a fork from [Donkeycar](https://github.com/autorope/donkeycar) and modified to be use with [Waveshare PiRacer](https://www.waveshare.com/piracer-ai-kit.htm) and works with the latest [Raspberry Pi OS Bookworm](https://www.raspberrypi.com/news/bookworm-the-new-version-of-raspberry-pi-os/) 👍
 
-PiRacer AI Kit featuring its Expansion Board comes with 3x battery holder of 18650 batteries with on-board lithium battery protection circuit with anti-overcharge, anti-over-discharge, anti-over-current short-circuit protection functions and stable 5V voltage regulator chip to the Raspberry Pi.
+PiRacer AI Kit featuring its Expansion Board comes with 3x battery holder of 18650 batteries with on-board lithium battery protection circuit with anti-overcharge, anti-over-discharge, anti-over-current short-circuit protection functions and voltage regulator chip to provide stable 5V to the Raspberry Pi.
 
 The expansion board also comes with 2 units of [PCA9685](https://www.nxp.com/products/power-management/lighting-driver-and-controller-ics/led-controllers/16-channel-12-bit-pwm-fm-plus-ic-bus-led-controller:PCA9685) 16-channel PWM controller interfaced to:
 1. [TB6612FNG](https://www.digikey.com/en/products/detail/toshiba-semiconductor-and-storage/TB6612FNG-C-8-EL/1730070) 1.2A Dual Motor Driver to control the DC Motors with I2C Address: `0x60`.
