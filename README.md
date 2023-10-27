@@ -28,6 +28,8 @@ The expansion board also comes with 2 units of [PCA9685](https://www.nxp.com/pro
 1. [TB6612FNG](https://www.digikey.com/en/products/detail/toshiba-semiconductor-and-storage/TB6612FNG-C-8-EL/1730070) 1.2A Dual Motor Driver to control the DC Motors with I2C Address: `0x60`.
 2. Servo Motor with I2C Address: `0x40`.
 
+The expansion board also comes with on-board 0.91" 128×32 resolution OLED and [INA219](https://www.ti.com/product/INA219) a bidirectional current/power monitor with I2C Address: `0x41`.
+
 ## Hardware Requirements
 
 I recommend to use Raspberry Pi 4 with at least 4GB of RAM and MicroSD card > 64GB.
