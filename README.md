@@ -16,11 +16,11 @@ Big salute and thank you to all Donkeycar [![contributors](https://img.shields.i
 
 You can access Donkeycar updates & examples from their website [http://donkeycar.com](http://donkeycar.com) or [build instructions and software documentation](http://docs.donkeycar.com) as well as [community chat on Discord](https://discord.gg/PN6kFeA).
 
+This repo is a fork from [Donkeycar](https://github.com/autorope/donkeycar) and modified to be use with [Waveshare PiRacer AI Kit](https://www.waveshare.com/piracer-ai-kit.htm) and works with the latest [Raspberry Pi OS Bookworm](https://www.raspberrypi.com/news/bookworm-the-new-version-of-raspberry-pi-os/) 👍
+
 ## PiRacer AI Kit
 
 <p align="center"><a href="https://www.waveshare.com/wiki/PiRacer_AI_Kit"><img src="https://www.waveshare.com/w/A6Y79bcq/Kdy80nYY.php?f=PiRacer-AI-Kit-1.jpg&width=800" width="400"></a></p>
-
-This repo is a fork from [Donkeycar](https://github.com/autorope/donkeycar) and modified to be use with [Waveshare PiRacer](https://www.waveshare.com/piracer-ai-kit.htm) and works with the latest [Raspberry Pi OS Bookworm](https://www.raspberrypi.com/news/bookworm-the-new-version-of-raspberry-pi-os/) 👍
 
 PiRacer AI Kit featuring its Expansion Board comes with 3x battery holder of 18650 batteries with on-board lithium battery protection circuit with anti-overcharge, anti-over-discharge, anti-over-current short-circuit protection functions and voltage regulator chip to provide stable 5V to the Raspberry Pi.
 
