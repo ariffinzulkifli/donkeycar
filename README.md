@@ -20,13 +20,17 @@ You can access Donkeycar updates & examples from their website [http://donkeycar
 
 <p align="center"><a href="https://www.waveshare.com/wiki/PiRacer_AI_Kit"><img src="https://www.waveshare.com/w/A6Y79bcq/Kdy80nYY.php?f=PiRacer-AI-Kit-1.jpg&width=800" width="400"></a></p>
 
-This repo is a fork from [Donkeycar](https://github.com/autorope/donkeycar) and modified to be use with [Waveshare PiRacer](https://www.waveshare.com/piracer-ai-kit.htm). PiRacer is using 2 units of [PCA9685](https://www.nxp.com/products/power-management/lighting-driver-and-controller-ics/led-controllers/16-channel-12-bit-pwm-fm-plus-ic-bus-led-controller:PCA9685) interface with to control:
-1. Servo Motor for steering the wheels. I2C Address: `0x40`
-2. [TB6612FNG](https://www.digikey.com/en/products/detail/toshiba-semiconductor-and-storage/TB6612FNG-C-8-EL/1730070) Motor Driver to control motor throttle and direction. I2C Address: `0x60`
+This repo is a fork from [Donkeycar](https://github.com/autorope/donkeycar) and modified to be use with [Waveshare PiRacer](https://www.waveshare.com/piracer-ai-kit.htm) and works with the latest [Raspberry Pi OS Bookworm](https://www.raspberrypi.com/news/bookworm-the-new-version-of-raspberry-pi-os/) 👍
+
+PiRacer AI Kit featuring its Expansion Board comes with 3x battery holder of 18650 batteries with on-board lithium battery protection circuit with anti-overcharge, anti-over-discharge, anti-over-current short-circuit protection functions and stable 5V voltage regulator chip to the Raspberry Pi.
+
+The expansion board also comes with 2 on-board [PCA9685](https://www.nxp.com/products/power-management/lighting-driver-and-controller-ics/led-controllers/16-channel-12-bit-pwm-fm-plus-ic-bus-led-controller:PCA9685) 16-channel PWM controller is used to be interfaced with:
+1. [TB6612FNG](https://www.digikey.com/en/products/detail/toshiba-semiconductor-and-storage/TB6612FNG-C-8-EL/1730070) 1.2A Dual Motor Driver to control the DC Motors with I2C Address: `0x60`.
+2. Servo Motor with I2C Address: `0x40`.
 
 ## Hardware Requirements
 
-I recommend to use Raspberry Pi 4 with at least 4GB of RAM. It's also recommended using a > 64GB microSD card.
+I recommend to use Raspberry Pi 4 with at least 4GB of RAM and MicroSD card > 64GB.
 
 ## Raspberry Pi OS Setup
 1. Run the following command to update the package lists:
