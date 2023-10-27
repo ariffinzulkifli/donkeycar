@@ -16,6 +16,10 @@ Big salute and thank you to all Donkeycar [![contributors](https://img.shields.i
 
 You can access Donkeycar updates & examples from their website [http://donkeycar.com](http://donkeycar.com) or [build instructions and software documentation](http://docs.donkeycar.com) as well as [community chat on Discord](https://discord.gg/PN6kFeA).
 
+## PiRacer AI Kit
+
+<p align="center"><a href="https://www.waveshare.com/wiki/PiRacer_AI_Kit"><img src="https://www.waveshare.com/w/A6Y79bcq/Kdy80nYY.php?f=PiRacer-AI-Kit-1.jpg&width=800" width="400"></a></p>
+
 This repo is a fork from [Donkeycar](https://github.com/autorope/donkeycar) and modified to be use with [Waveshare PiRacer](https://www.waveshare.com/piracer-ai-kit.htm). PiRacer is using 2 units of [PCA9685](https://www.nxp.com/products/power-management/lighting-driver-and-controller-ics/led-controllers/16-channel-12-bit-pwm-fm-plus-ic-bus-led-controller:PCA9685) interface with to control:
 1. Servo Motor for steering the wheels. I2C Address: `0x40`
 2. [TB6612FNG](https://www.digikey.com/en/products/detail/toshiba-semiconductor-and-storage/TB6612FNG-C-8-EL/1730070) Motor Driver to control motor throttle and direction. I2C Address: `0x60`
