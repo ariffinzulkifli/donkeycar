@@ -49,11 +49,11 @@ sudo apt upgrade
 ```bash
 sudo raspi-config
 ```
-<p align="center"><img src="https://linuxhint.com/wp-content/uploads/2022/06/What-is-Raspi-Config-Tool-2.png" width="400"></p>
+<p align="center"><img src="https://linuxhint.com/wp-content/uploads/2022/06/What-is-Raspi-Config-Tool-2.png" width="600"></p>
 
 Use the arrow keys on keyboard to navigate to the Interface Options and enable both `VNC` and `I2C`. Enabling VNC you can remote desktop your Raspberry Pi from your PC using the [TigerVNC](https://tigervnc.org/) and enabling the I2C you can communicate with all the important interface to the actuators or sensors on the PiRacer Expansion Board.
 
-<p align="center"><img src="https://linuxhint.com/wp-content/uploads/2022/06/What-is-Raspi-Config-Tool-5.png" width="400"></p>
+<p align="center"><img src="https://linuxhint.com/wp-content/uploads/2022/06/What-is-Raspi-Config-Tool-5.png" width="600"></p>
 
 4. Verify if I2C is enabled and detect devices on the I2C bus, by using the following command:
 ```bash
@@ -153,4 +153,4 @@ For example:
 ```
 http://piracer-10.local:8887
 ```
-<p align="center"><img src="https://docs.donkeycar.com/assets/web_controller.png" width="500"></p>
+<p align="center"><img src="https://docs.donkeycar.com/assets/web_controller.png" width="700"></p>
