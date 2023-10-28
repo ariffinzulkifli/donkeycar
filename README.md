@@ -28,11 +28,11 @@ The expansion board also comes with 2 units of [PCA9685](https://www.nxp.com/pro
 1. [TB6612FNG](https://www.digikey.com/en/products/detail/toshiba-semiconductor-and-storage/TB6612FNG-C-8-EL/1730070) 1.2A Dual Motor Driver to control the DC Motors with I2C Address: `0x60`.
 2. Servo Motor with I2C Address: `0x40`.
 
-The expansion board also comes with on-board 0.91" 128×32 resolution OLED and [INA219](https://www.ti.com/product/INA219) a bidirectional current/power monitor with I2C Address: `0x41`.
+The expansion board also comes with on-board 0.91" 128×32 resolution OLED with I2C Address: `0x3C` and [INA219](https://www.ti.com/product/INA219) a bidirectional current/power monitor with I2C Address: `0x41`.
 
 ## Hardware Requirements
 
-I recommend to use Raspberry Pi 4 with at least 4GB of RAM and MicroSD card > 64GB.
+I recommend to use Raspberry Pi 4 with at least 4GB of RAM or more, and MicroSD card > 64GB.
 
 ## Raspberry Pi OS Setup
 1. Run the following command to update the package lists:
@@ -49,10 +49,28 @@ sudo apt upgrade
 ```bash
 sudo raspi-config
 ```
+<p align="center"><img src="https://linuxhint.com/wp-content/uploads/2022/06/What-is-Raspi-Config-Tool-2.png" width="400"></p>
+
+Use the arrow keys on keyboard to navigate to the Interface Options and enable both `VNC` and `I2C`. Enabling VNC you can remote desktop your Raspberry Pi from your PC using the [TigerVNC](https://tigervnc.org/) and enabling the I2C you can communicate with all the important interface to the actuators or sensors on the PiRacer Expansion Board.
+
+<p align="center"><img src="https://linuxhint.com/wp-content/uploads/2022/06/What-is-Raspi-Config-Tool-5.png" width="400"></p>
 
 4. Verify if I2C is enabled and detect devices on the I2C bus, by using the following command:
 ```bash
 sudo i2cdetect -y 1
+```
+
+You'll see the results like below, where the address `0x3c` belongs to the OLED, the address `0x40` belongs to PCA9685 for the servo motor, the address `0x41` belongs to the INA219 for on-board power monitoring and the `0x60` belongs to PCA9685 for the DC motors.
+```
+     0  1  2  3  4  5  6  7  8  9  a  b  c  d  e  f
+00:                         -- -- -- -- -- -- -- -- 
+10: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- 
+20: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- 
+30: -- -- -- -- -- -- -- -- -- -- -- -- 3c -- -- -- 
+40: 40 41 -- -- -- -- -- -- -- -- -- -- -- -- -- -- 
+50: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- 
+60: 60 -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- 
+70: 70 -- -- -- -- -- -- --  
 ```
 
 ## Setup Python Virtual Environment
@@ -97,19 +115,7 @@ pip install -e .[pi]
 python -c "import tensorflow; print(tensorflow.__version__)"
 ```
 
-## Install OpenCV
-
-1. Install the OpenCV Python package with the following command:
-```bash
-pip install opencv-python
-```
-
-2. You can install the OpenCV-contrib Python package if needed:
-```bash
-pip install opencv-contrib-python
-```
-
-3. Verify the installed OpenCV version by running the following command:
+6. Verify the installed OpenCV version by running the following command:
 ```bash
 python -c "import cv2; print(cv2.__version__)"
 ```
@@ -128,7 +134,7 @@ donkey createcar --path ~/mycar
 cd ~/mycar
 ```
 
-2. Run the following command to start driving your car using Donkeycar:
+2. Run the following command to start driving your car using Donkeycar's web server:
 ```bash
 python manage.py drive
 ```
@@ -140,10 +146,11 @@ python manage.py drive --js
 3. Control your car from your PC's web browser at the URL:
 *Note*: change the car-hostname with your Raspberry Pi hostname or IP address.
 ```
-car-hostname.local:8887
+http://car-hostname.local:8887
 ```
 
 For example:
 ```
 http://piracer-10.local:8887
 ```
+<p align="center"><img src="https://docs.donkeycar.com/assets/web_controller.png" width="400"></p>
