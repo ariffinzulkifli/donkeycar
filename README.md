@@ -153,4 +153,4 @@ For example:
 ```
 http://piracer-10.local:8887
 ```
-<p align="center"><img src="https://docs.donkeycar.com/assets/web_controller.png" width="400"></p>
+<p align="center"><img src="https://docs.donkeycar.com/assets/web_controller.png" width="500"></p>
