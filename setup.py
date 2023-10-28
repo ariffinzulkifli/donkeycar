@@ -12,8 +12,7 @@ def package_files(directory, strip_leading):
     return paths
 
 car_templates = ['templates/*']
-web_controller_html = package_files('donkeycar/parts/controllers/templates',
-                                    'donkeycar/')
+web_controller_html = package_files('donkeycar/parts/controllers/templates', 'donkeycar/')
 
 extra_files = car_templates + web_controller_html
 print('extra_files', extra_files)
@@ -127,6 +126,7 @@ setup(name='donkeycar',
         # that you indicate whether you support Python 2, Python 3 or both.
         'Programming Language :: Python :: 3.8',
         'Programming Language :: Python :: 3.9',
+        'Programming Language :: Python :: 3.11',
     ],
     keywords='selfdriving cars donkeycar diyrobocars',
     packages=find_packages(exclude=(['tests', 'docs', 'site', 'env'])),
