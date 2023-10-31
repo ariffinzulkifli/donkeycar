@@ -10,7 +10,7 @@ ai.iot.cloud.technology.training.trading =======================================
 Ts. Mohamad Ariffin Zulkifli
 ariffin@myduino.com
 ```
-[Donkeycar](https://github.com/autorope/donkeycar) is minimalist and modular self driving library for Python. It is developed for hobbyists and students with a focus on allowing fast experimentation and easy community contributions.
+[Donkeycar](https://github.com/autorope/donkeycar) is a minimalist and modular self driving library for Python. It is developed for hobbyists and students with a focus on allowing fast experimentation and easy community contributions.
 
 Big salute and thank you to all Donkeycar [![contributors](https://img.shields.io/github/contributors/autorope/donkeycar)](#contributors-)
 
