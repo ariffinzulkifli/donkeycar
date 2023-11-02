@@ -81,9 +81,11 @@ try:
             index_pixel_right = white_pixel_index[-1]
             index_pixel_centre = int(((index_pixel_right - index_pixel_left)/2) + index_pixel_left)
             # print('WHITE PIXEL INDEX  {}, {}, {}'.format(index_pixel_left, index_pixel_centre, index_pixel_right))
+            
             x = index_pixel_centre - 320
             y = 480 - horizon_line
             #print (x)
+            
             theta = int(math.degrees(math.atan(x/y)))
             #print (theta)
 
@@ -108,7 +110,6 @@ try:
             cv2.line (image , (320, 480), (index_pixel_centre, horizon_line) , (0, 0, 255), 1)
             
         #yellow = cv2.bitwise_and(image, image, mask = mask1)
-
         cv2.line(image, (0, horizon_line), (640, horizon_line),(0, 0, 255), 1)
         cv2.imshow('Original', image)
         #cv2.imshow('HSV', hsv)
